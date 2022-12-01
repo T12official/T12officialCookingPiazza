@@ -2,30 +2,32 @@ package com.mygdx.game;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.ScreenUtils;
 
-public class MyGdxGame extends ApplicationAdapter {
+public class T12Piazza extends ApplicationAdapter {
 	SpriteBatch batch;
-	Texture img;
-	
+	TextureAtlas chef_1;
+	TextureAtlas chef_2;
+
 	@Override
 	public void create () {
 		batch = new SpriteBatch();
-		img = new Texture("badlogic.jpg");
+		chef_1 = new TextureAtlas("chef/a2.png");
+		chef_2 = new TextureAtlas("chef/b2.png");
 	}
 
 	@Override
 	public void render () {
 		ScreenUtils.clear(1, 0, 0, 1);
 		batch.begin();
-		batch.draw(img, 0, 0);
 		batch.end();
 	}
-	
+
 	@Override
 	public void dispose () {
 		batch.dispose();
-		img.dispose();
+		chef_1.dispose();
 	}
 }
