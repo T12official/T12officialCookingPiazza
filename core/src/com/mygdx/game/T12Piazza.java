@@ -8,14 +8,14 @@ import com.badlogic.gdx.utils.ScreenUtils;
 
 public class T12Piazza extends ApplicationAdapter {
 	SpriteBatch batch;
-	TextureAtlas chef_1;
-	TextureAtlas chef_2;
+	Texture chef_1;
+	Texture chef_2;
 
 	@Override
 	public void create () {
 		batch = new SpriteBatch();
-		chef_1 = new TextureAtlas("chef/a2.png");
-		chef_2 = new TextureAtlas("chef/b2.png");
+		chef_1 = new Texture("chef/a2.png");
+		chef_2 = new Texture("chef/b2.png");
 	}
 
 	@Override
