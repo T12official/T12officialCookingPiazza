@@ -1,8 +1,8 @@
 package com.mygdx.game;
 import java.util.*;
-public class level {
-    ArrayList<customer> customerList = new ArrayList<>();
-    ArrayList<chef> chefList = new ArrayList<>();
+public class Level {
+    ArrayList<Customer> customerList = new ArrayList<>();
+    ArrayList<Chef> chefList = new ArrayList<>();
     long timer;
     long idleTime;
     int[][] gridArray;
