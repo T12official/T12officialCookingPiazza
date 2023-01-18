@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.9" tiledversion="1.9.2" orientation="orthogonal" renderorder="right-down" width="7" height="10" tilewidth="32" tileheight="32" infinite="0" nextlayerid="4" nextobjectid="1">
+ <tileset firstgid="1" source="kitchen_tiles.tsx"/>
+ <layer id="1" name="Floor" width="7" height="10">
+  <data encoding="csv">
+55,55,55,55,55,55,55,
+12,13,13,13,13,13,14,
+12,13,13,13,13,13,14,
+12,13,13,13,13,13,14,
+12,13,13,13,13,13,14,
+12,13,13,13,13,13,14,
+12,13,13,13,13,13,14,
+12,13,13,13,13,13,14,
+12,13,13,13,13,13,14,
+19,20,20,20,20,20,21
+</data>
+ </layer>
+ <layer id="3" name="Counter Tops" width="7" height="10">
+  <data encoding="csv">
+16,31,31,31,31,32,0,
+22,22,22,22,22,32,0,
+32,32,32,32,32,0,0,
+32,2147483664,31,31,31,31,17,
+0,2147483672,22,22,22,22,22,
+0,0,32,32,32,32,32,
+0,0,32,32,32,32,32,
+15,15,15,15,15,15,15,
+36,36,36,36,36,36,36,
+0,0,0,0,0,0,0
+</data>
+ </layer>
+ <layer id="2" name="Utils" width="7" height="10">
+  <data encoding="csv">
+30,30,0,0,0,3,3,
+0,0,0,0,0,10,10,
+0,0,0,0,0,0,0,
+0,0,18,0,18,0,18,
+0,0,25,0,25,0,25,
+4,0,0,0,0,0,0,
+11,0,0,0,0,0,0,
+0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,
+0,0,0,0,0,0,0
+</data>
+ </layer>
+</map>

@@ -27,8 +27,9 @@ public class Chef extends Sprite {
 
 
     public Chef(Level level){
+
+        walkingSpeed = 5;
         texture = new Texture(Gdx.files.internal("chef/a1.png"));
-        walkingSpeed = 10;
         TextureRegion[][] tmp = TextureRegion.split(texture,
                 texture.getWidth() / FRAME_COLS,
                 texture.getHeight() / FRAME_ROWS);

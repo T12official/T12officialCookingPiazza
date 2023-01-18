@@ -1,11 +1,19 @@
 package com.mygdx.game;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.files.FileHandle;
+import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.maps.tiled.TiledMap;
+import com.badlogic.gdx.maps.tiled.TiledMapRenderer;
+import com.badlogic.gdx.maps.tiled.TmxMapLoader;
+import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.utils.TimeUtils;
 import sun.tools.jconsole.JConsole;
 
 import java.util.*;
-public class Level {
+public class Level implements Screen {
     ArrayList<Customer> customerList = new ArrayList<>();
     ArrayList<Chef> chefList = new ArrayList<>();
     long timer;
@@ -16,6 +24,31 @@ public class Level {
     long timeToNextCustomer;
     long getTimeToIdleGame;
 
+    private TiledMap tiledMap;
+    private TiledMapRenderer tiledMapRenderer;
+    private OrthographicCamera camera;
+
+    @Override
+    public void render(float delta) {
+        Gdx.gl.glClearColor(0, 0, 0, 1);
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+
+        tiledMapRenderer.setView(camera);
+        int[] layers = {0,1, 2};
+        tiledMapRenderer.render(layers);
+    }
+
+    @Override
+    public void show() {
+        tiledMap = new TmxMapLoader().load("gameMaps/level1.tmx");
+        tiledMapRenderer = new OrthogonalTiledMapRenderer(tiledMap);
+        camera = new OrthographicCamera();
+    }
+
+    @Override
+    public void hide() {
+        dispose();
+    }
 
     public long getTimeToNextCustomer(){
         return timeToNextCustomer;
@@ -45,7 +78,21 @@ public class Level {
 
     }
 
+    @Override
+    public void resize(int width, int height) {
+        camera.viewportWidth = width;
+        camera.viewportHeight = height;
+        camera.update();
+    }
 
+    @Override
+    public void pause() {
+    }
+
+    @Override
+    public void resume() {
+
+    }
 
     public void initialiseLevel(){
 
@@ -76,4 +123,8 @@ public class Level {
         }
     }
 
+    @Override
+    public void dispose() {
+        tiledMap.dispose();
+    }
 }
