@@ -1,16 +1,17 @@
 package com.mygdx.game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapRenderer;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.utils.TimeUtils;
-import sun.tools.jconsole.JConsole;
 
 import java.util.*;
 public class Level implements Screen {
@@ -27,6 +28,10 @@ public class Level implements Screen {
     private TiledMap tiledMap;
     private TiledMapRenderer tiledMapRenderer;
     private OrthographicCamera camera;
+    float stateTime;
+    SpriteBatch batch;
+    private Chef chef1;
+
 
     @Override
     public void render(float delta) {
@@ -34,13 +39,24 @@ public class Level implements Screen {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         tiledMapRenderer.setView(camera);
+        batch = new SpriteBatch();
+        chefList = new ArrayList<>();
+
         int[] layers = {0,1, 2};
         tiledMapRenderer.render(layers);
+
+        batch.begin();
+        chef1.draw(batch, delta);
+        batch.end();
+
+
+
     }
 
     @Override
     public void show() {
         tiledMap = new TmxMapLoader().load("gameMaps/level1.tmx");
+        chef1 = new Chef(this);
         tiledMapRenderer = new OrthogonalTiledMapRenderer(tiledMap);
         camera = new OrthographicCamera();
     }
@@ -59,8 +75,6 @@ public class Level implements Screen {
 
         //This function reads read in a gameMap file and populates the gridArray variable which
         //The gridArray is a 2d array that contains a map of the game world
-
-
 
         FileHandle handle =  Gdx.files.local(gameFile);
         String text = handle.readString();
@@ -126,5 +140,6 @@ public class Level implements Screen {
     @Override
     public void dispose() {
         tiledMap.dispose();
+        batch.dispose();
     }
 }
