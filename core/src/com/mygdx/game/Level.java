@@ -9,9 +9,14 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapRenderer;
+import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
+import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.TimeUtils;
+import com.badlogic.gdx.utils.viewport.FitViewport;
+import com.badlogic.gdx.utils.viewport.StretchViewport;
 
 import java.util.*;
 public class Level implements Screen {
@@ -32,6 +37,12 @@ public class Level implements Screen {
     SpriteBatch batch;
     private Chef chef1;
 
+    final static int MAP_HEIGHT = 10;
+    final static int MAP_WIDTH = 7;
+    private Stage stage;
+    private float GAME_HEIGHT = 100;
+    private float GAME_WIDTH = 200;
+
 
     @Override
     public void render(float delta) {
@@ -42,23 +53,26 @@ public class Level implements Screen {
         batch = new SpriteBatch();
         chefList = new ArrayList<>();
 
-        int[] layers = {0,1, 2};
-        tiledMapRenderer.render(layers);
+
+        tiledMapRenderer.render();
+        camera.position.set(chef1.getX() + chef1.getWidth() / 2, chef1.getY() + chef1.getHeight() / 2, 0);
+        stage = new Stage(new FitViewport(32*MAP_WIDTH, 32*MAP_HEIGHT, camera));
 
         batch.begin();
+        batch.setProjectionMatrix(camera.combined);
         chef1.draw(batch, delta);
         batch.end();
-
-
-
+        camera.update();
     }
 
     @Override
     public void show() {
-        tiledMap = new TmxMapLoader().load("gameMaps/level1.tmx");
+        tiledMap = new TmxMapLoader().load("gameMaps/level2.tmx");
         chef1 = new Chef(this);
         tiledMapRenderer = new OrthogonalTiledMapRenderer(tiledMap);
-        camera = new OrthographicCamera();
+        float aspectRatio = (float) (Gdx.graphics.getHeight() / Gdx.graphics.getWidth());
+        camera = new OrthographicCamera(GAME_HEIGHT * aspectRatio, GAME_WIDTH * aspectRatio);
+        Gdx.input.setInputProcessor(chef1);
     }
 
     @Override
@@ -141,5 +155,9 @@ public class Level implements Screen {
     public void dispose() {
         tiledMap.dispose();
         batch.dispose();
+    }
+
+    public TiledMapTileLayer getMapTileLayer(int i) {
+        return (TiledMapTileLayer) tiledMap.getLayers().get(i);
     }
 }

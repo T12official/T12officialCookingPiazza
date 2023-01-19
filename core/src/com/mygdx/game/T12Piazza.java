@@ -10,7 +10,6 @@ public class T12Piazza extends Game {
 	Chef chef_1;
 	Texture chef_2;
 	TextureRegion chef_1_default;
-
 	Level myLevelManager;
 
 
@@ -22,9 +21,7 @@ public class T12Piazza extends Game {
 		setScreen(new Level());
 		chef_2 = new Texture("chef/b2.png");
 		//chef_1_default = new TextureRegion(chef_1, 34, 12, 30, 40);
-
 		myLevelManager = new Level();
-
 		myLevelManager.initialiseLevel();
 
 	}
@@ -65,6 +62,5 @@ public class T12Piazza extends Game {
 	@Override
 	public void dispose () {
 		super.dispose();
-		chef_1.dispose();
 	}
 }

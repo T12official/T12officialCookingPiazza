@@ -50,7 +50,7 @@
  <tile id="7">
   <properties>
    <property name="interactable" type="bool" value="true"/>
-   <property name="solid" type="bool" value="true"/>
+   <property name="solid" type="bool" value="false"/>
   </properties>
  </tile>
  <tile id="8">
@@ -221,7 +221,7 @@
  <tile id="35">
   <properties>
    <property name="interactable" type="bool" value="true"/>
-   <property name="solid" type="bool" value="true"/>
+   <property name="solid" type="bool" value="false"/>
   </properties>
  </tile>
  <tile id="36">
