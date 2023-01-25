@@ -5,7 +5,6 @@ import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.*;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
-import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 
 public class Chef extends Sprite implements InputProcessor {
@@ -17,15 +16,19 @@ public class Chef extends Sprite implements InputProcessor {
     public enum State {WALKING, STANDING}
     State currentState;
     String prevState;
-    TextureRegion standingTexture;
     Animation<TextureRegion> walkAnimation;
+    Animation<TextureRegion> idleAnimation;
     TiledMapTileLayer collisionLayer;
     private Level level;
     private float walkingSpeed;
     private float runningSpeed;
-    private Texture chefTexture;
-    private static final int FRAME_COLS = 6;
-    private static final int FRAME_ROWS = 5;
+
+    private Texture chefSheet;
+    private TextureRegion[][] allTiles;
+    private static final int BASE_WIDTH = 12;
+    private static final int BASE_HEIGHT = 18;
+    private static final float RENDERED_WIDTH = (float) (BASE_WIDTH * 1.5);
+    private static final float RENDERED_HEIGHT = (float) (BASE_HEIGHT * 1.5);
     boolean collideX, collideY;
 
     @Override
@@ -34,12 +37,12 @@ public class Chef extends Sprite implements InputProcessor {
         stateTime += Gdx.graphics.getDeltaTime();
         TextureRegion currentFrame;
         if (isStanding()){
-            currentFrame = standingTexture;
+            currentFrame = idleAnimation.getKeyFrame(stateTime, true);
         } else {
             currentFrame = walkAnimation.getKeyFrame(stateTime, true);
         }
         update(Gdx.graphics.getDeltaTime());
-        batch.draw(currentFrame, getX(), getY(), 32, 32);
+        batch.draw(currentFrame, getX(), getY(), RENDERED_WIDTH, RENDERED_HEIGHT);
 
     }
 
@@ -51,24 +54,29 @@ public class Chef extends Sprite implements InputProcessor {
         collisionLayer = level.getMapTileLayer(1);
         collideX=false;
         collideY=false;
-        chefTexture = new Texture(Gdx.files.internal("chef/a1.png"));
+        chefSheet = new Texture(Gdx.files.internal("chef/a1_new.png"));
 
-        // Load chef walk animation
-        TextureRegion[][] tmp = TextureRegion.split(chefTexture,
-                chefTexture.getWidth() / FRAME_COLS,
-                chefTexture.getHeight() / FRAME_ROWS);
-        TextureRegion[] frames = new TextureRegion[FRAME_COLS];
+        // Load all chef sprites in our new custom sprite sheet.
+        // In this format, each sprite is a 12x18 region. It can be expanded to add more sprites.
+        // 0 - Idles
+        // 1 - Walks
+        allTiles = TextureRegion.split(chefSheet,12,18);
+
+        TextureRegion[] idleFrames = fill_frames(0, 3);
+        TextureRegion[] walkFrames = fill_frames(1, 5);
+        idleAnimation = new Animation<>(0.40f, idleFrames);
+        walkAnimation = new Animation<>(0.15f, walkFrames);
+
+        setSize(BASE_WIDTH, BASE_HEIGHT);
+    }
+
+    private TextureRegion[] fill_frames(int row, int count){
+        TextureRegion[] frames = new TextureRegion[count];
         int index = 0;
-        for (int i = 0; i < FRAME_COLS; i++) {
-            frames[index++] = tmp[1][i];
+        for (int i = 0; i < frames.length; i++) {
+            frames[index++] = allTiles[row][i];
         }
-
-        setSize(chefTexture.getWidth() / FRAME_COLS, chefTexture.getHeight() / FRAME_ROWS);
-        walkAnimation = new Animation<TextureRegion>(0.25f, frames);
-        standingTexture = new TextureRegion(frames[0]);
-
-
-        //spriteBatch = new SpriteBatch();
+        return frames;
     }
 
     public void update(float delta){
