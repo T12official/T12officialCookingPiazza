@@ -4,9 +4,36 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 public class Station extends Sprite implements InputProcessor {
     private boolean interacted = false;
+
+    private SpriteBatch batch;
+
+    private Sprite tenderStation;
+
+    public void create(){
+        batch = new SpriteBatch();
+    }
+    
+    public Station(){
+
+        Texture texture = new Texture(Gdx.files.internal("tabletop_wallknife.png"));
+        tenderStation = new Sprite(texture, 20, 20, 50, 50);
+        tenderStation.setPosition(20,20);
+    }
+
+    public void render(){
+        batch.begin();
+        tenderStation.draw(batch);
+        batch.end();
+    }
+
+    
+
+
 
     @Override
     public boolean keyDown(int keycode) {
@@ -51,7 +78,7 @@ public class Station extends Sprite implements InputProcessor {
         return false;
     }
 
-    enum Type{FRIDGE, SERVICE, COOKER}
+    //enum Type{FRIDGE, SERVICE, COOKER}
     public Ingredient[] ingredients;
 
 
