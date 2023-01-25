@@ -61,22 +61,22 @@ public class Chef extends Sprite implements InputProcessor {
         // 0 - Idles
         // 1 - Walks
         allTiles = TextureRegion.split(chefSheet,12,18);
-        TextureRegion[] walkFrames = new TextureRegion[5];
-        TextureRegion[] idleFrames = new TextureRegion[3];
 
-        fill(idleFrames, 0);
-        fill(walkFrames, 1);
+        TextureRegion[] idleFrames = fill_frames(0, 3);
+        TextureRegion[] walkFrames = fill_frames(1, 5);
         idleAnimation = new Animation<>(0.40f, idleFrames);
         walkAnimation = new Animation<>(0.15f, walkFrames);
 
         setSize(BASE_WIDTH, BASE_HEIGHT);
     }
 
-    private void fill(TextureRegion[] frames, int row){
+    private TextureRegion[] fill_frames(int row, int count){
+        TextureRegion[] frames = new TextureRegion[count];
         int index = 0;
         for (int i = 0; i < frames.length; i++) {
             frames[index++] = allTiles[row][i];
         }
+        return frames;
     }
 
     public void update(float delta){
