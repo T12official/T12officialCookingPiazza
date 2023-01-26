@@ -10,6 +10,7 @@ public class Ingredient extends Sprite {
     private final Type type;
 
     // need to add plate
+    // need to add type dish
     
     public enum Type {RAW_BURGER, COOKED_BURGER, RAW_TOMATO, CHOPPED_TOMATO, BUN, CHOPPED_BUN};
     Texture rawBurgerTexture;
