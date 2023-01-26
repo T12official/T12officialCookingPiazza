@@ -14,7 +14,11 @@ public class Chef extends Sprite implements InputProcessor {
     private Vector2 velocity=new Vector2();
 
     public enum State {WALKING, STANDING}
+    public enum Direction {LEFT, RIGHT}
     State currentState;
+    Direction currentDirection;
+    Direction previousDirection = Direction.RIGHT;
+    public boolean flipChef = false;
     String prevState;
     Animation<TextureRegion> walkAnimation;
     Animation<TextureRegion> idleAnimation;
@@ -42,7 +46,7 @@ public class Chef extends Sprite implements InputProcessor {
             currentFrame = walkAnimation.getKeyFrame(stateTime, true);
         }
         update(Gdx.graphics.getDeltaTime());
-        batch.draw(currentFrame, getX(), getY(), RENDERED_WIDTH, RENDERED_HEIGHT);
+        batch.draw(currentFrame, flipChef ? getX() + RENDERED_WIDTH : getX(), getY(), flipChef ? -RENDERED_WIDTH : RENDERED_WIDTH, RENDERED_HEIGHT);
 
     }
 
@@ -176,6 +180,7 @@ public class Chef extends Sprite implements InputProcessor {
 
     @Override
     public boolean keyDown(int keycode) {
+        flipChef = false;
         switch (keycode){
             case Input.Keys.W:
                 velocity.y += walkingSpeed;
@@ -187,14 +192,20 @@ public class Chef extends Sprite implements InputProcessor {
                 break;
             case Input.Keys.A:
                 currentState = State.WALKING;
+                currentDirection = Direction.LEFT;
                 velocity.x -= walkingSpeed;
                 break;
             case Input.Keys.D:
                 currentState = State.WALKING;
+                currentDirection = Direction.RIGHT;
                 velocity.x += walkingSpeed;
                 break;
 
         }
+        if (currentDirection == Direction.LEFT) {
+            flipChef = true;
+        }
+        previousDirection = currentDirection;
 
         return true;
     }
