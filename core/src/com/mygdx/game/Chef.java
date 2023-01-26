@@ -201,12 +201,15 @@ public class Chef extends Sprite implements InputProcessor {
                 velocity.x += walkingSpeed;
                 break;
             case (Input.Keys.E ):
-                System.out.println("sdusfdskhkfdukhweffweqkhuwefwefkhuwefkhuwefkhfweukhfwehukefw:" );
                 Sprite[] stationArray = level.getSprites();
+                System.out.println("sdusfdskhkfdukhweffweqkhuwefwefkhuwefkhuwefkhfweukhfwehukefw:" + stationArray.length );
+
+                //System.out.println(stationArray.);
 
                 double minDist = 10000;
                 int minIndex = 0;
                 for (int i = 0 ; i < stationArray.length ; i ++){
+                    //System.out.println(stationArray[i].getX() + stationArray[i].getY());
                     double currentDist =  Math.sqrt(   Math.pow ((stationArray[i].getX() - getX()), 2 ) + Math.pow( (stationArray[i].getY() - getY()) , 2) );
                     if (minDist > currentDist){
                         minDist = currentDist;

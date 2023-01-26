@@ -17,7 +17,13 @@ public class Station extends Sprite implements InputProcessor {
     private Sprite tenderStation;//Create new sprite
     private Sprite devieryStation;
     private Sprite placeHolder;
-    public Sprite[] mySprites = {tenderStation, devieryStation, placeHolder};
+
+
+    public Sprite[] getSprites(){
+        Sprite[] a = {tenderStation, devieryStation, placeHolder};
+        return a;
+
+    }
 
     public Station(Level level){
 
@@ -27,6 +33,7 @@ public class Station extends Sprite implements InputProcessor {
         placeHolder= new Sprite(texture2, 0 ,0, 12, 24);
         Texture texture3 = new Texture(Gdx.files.internal("Tiles/counterFillin.png"));
         devieryStation = new Sprite(texture3, 30,30,12,24);
+        Sprite[] mySprites = {tenderStation, devieryStation, placeHolder};
     }
 
     @Override

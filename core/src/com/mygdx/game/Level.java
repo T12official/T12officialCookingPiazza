@@ -250,7 +250,7 @@ public class Level implements Screen {
         readAssetFile("gameMaps/gameMap.txt");
     }
     public Sprite[] getSprites (){
-        return station.mySprites;
+        return station.getSprites();
     }
 
     public long getTimeElapsedMilliSeconds(){
