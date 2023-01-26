@@ -30,7 +30,7 @@ import java.util.*;
 import java.util.List;
 
 public class Level implements Screen {
-
+    overlay myOverlay = new overlay();
     private Table table;
     ArrayList<Customer> customerList = new ArrayList<>();
     ArrayList<Chef> chefList = new ArrayList<>();
@@ -39,8 +39,8 @@ public class Level implements Screen {
     List<List<String>> gridArray;
     String gameMode;
     //TimeUtils.millis();
-    long timeToNextCustomer;
-    long getTimeToIdleGame;
+    long timeToNextCustomer = 10000;
+    long getTimeToIdleGame = 15000;
 
     private TiledMap tiledMap;
     private TiledMapRenderer tiledMapRenderer;
@@ -55,32 +55,29 @@ public class Level implements Screen {
     private float GAME_HEIGHT = 100;
     private float GAME_WIDTH = 200;
     private Ingredient ingredient;
+    private List<String> recipiesArray = new ArrayList<>();
+    public boolean initialize = true;
+
 
 
     @Override
     public void render(float delta) {
-
-
+        System.out.println("sss" + this.recipiesArray.size());
         table = new Table();
         table.setFillParent(false);
         table.setPosition(100,50);
         table.sizeBy(100,100);
         //table.setDebug(true);
-
-
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-
         tiledMapRenderer.setView(camera);
         batch = new SpriteBatch();
         chefList = new ArrayList<>();
         ingredient = new Ingredient();
-
-
         tiledMapRenderer.render();
         camera.position.set(chef1.getX() + chef1.getWidth() / 2, chef1.getY() + chef1.getHeight() / 2, 0);
         stage = new Stage(new FitViewport(32*MAP_WIDTH, 32*MAP_HEIGHT, camera));
-        overlay myOverlay = new overlay();
+
         myOverlay.setUpTable(stage);
         myOverlay.setTableBackgroundColor(230,0,0,60);
         myOverlay.addText("example Text");
@@ -88,6 +85,21 @@ public class Level implements Screen {
 
         myOverlay.removeRow(0,1);
         myOverlay.addText("third");
+
+        if (initialize){
+            timer = TimeUtils.millis();
+            initialize = false;
+        }
+        else {
+            if (TimeUtils.timeSinceMillis(timer) > timeToNextCustomer){
+                initialize = true;
+                System.out.println("SPAWNING NEW CUSTOMER");
+                recipiesArray.add("testData");
+
+            }
+        }
+
+        populateOverlay();
         //stage.addActor(table);
 
         //Texture  texture = new Texture(Gdx.files.internal("Tiles/kitchen_fridge.png"));
@@ -178,6 +190,7 @@ public class Level implements Screen {
     }
 
     public void initialiseLevel(){
+        recipiesArray.add("testData");
 
         timeToNextCustomer = 10000;
         getTimeToIdleGame = 15000;
@@ -188,6 +201,13 @@ public class Level implements Screen {
         idleTime = TimeUtils.millis();
         gridArray = new ArrayList<>();
         readAssetFile("gameMaps/gameMap.txt");
+        Dish tempDish = new Dish();
+        Customer tempCust = new Customer(tempDish);
+        customerList.add(tempCust);
+    }
+
+    public void resetTimer(){
+        timer = TimeUtils.millis();
     }
 
     public long getTimeElapsedMilliSeconds(){
@@ -201,13 +221,32 @@ public class Level implements Screen {
 
     }
     public void nextCustomer(){
+        Random random = new Random();
+        int myRandNum = random.nextInt(4) + 1;
+        recipyText recGen = new recipyText();
         if (customerList.size() > 0){
-            customerList.get(customerList.size() - 1);
-            customerList.remove(customerList.size() - 1);
+            System.out.println("I ran");
+            //customerList.get(customerList.size() - 1);
+            //customerList.remove(customerList.size() - 1);
             timer = TimeUtils.millis();
+            this.recipiesArray.add("testData");
+            //System.out.println(recipiesArray.get(0));
+
+            //myOverlay.addText("textblod");
+            //stage.draw();
+            //myOverlay
         }
     }
 
+    private void populateOverlay(){
+        System.out.println("Size of rec here is :" + recipiesArray.size());
+
+        for (int i = 0 ; i < recipiesArray.size(); i ++){
+            System.out.println(recipiesArray.get(i));
+            myOverlay.addText(recipiesArray.get(i));
+        }
+
+    }
     @Override
     public void dispose() {
         tiledMap.dispose();
