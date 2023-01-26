@@ -43,7 +43,6 @@ public class T12Piazza extends Game {
 			//This checks whether enough time has passed in order to spawn a new customer
 			System.out.println("spawn Next Customer");
 			myLevelManager.nextCustomer();
-			myLevelManager.resetTimer();
 			//myLevelManager.editMe = true;
 		}
 		if (myLevelManager.getTimeSinceLastIO() > myLevelManager.getMinIdleTime()){
