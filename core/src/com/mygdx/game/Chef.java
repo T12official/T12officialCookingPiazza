@@ -200,6 +200,26 @@ public class Chef extends Sprite implements InputProcessor {
                 currentDirection = Direction.RIGHT;
                 velocity.x += walkingSpeed;
                 break;
+            case (Input.Keys.E ):
+                System.out.println("sdusfdskhkfdukhweffweqkhuwefwefkhuwefkhuwefkhfweukhfwehukefw:" );
+                Sprite[] stationArray = level.getSprites();
+
+                double minDist = 10000;
+                int minIndex = 0;
+                for (int i = 0 ; i < stationArray.length ; i ++){
+                    double currentDist =  Math.sqrt(   Math.pow ((stationArray[i].getX() - getX()), 2 ) + Math.pow( (stationArray[i].getY() - getY()) , 2) );
+                    if (minDist > currentDist){
+                        minDist = currentDist;
+                        minIndex = i;
+                    }
+                }
+                System.out.println("my closest sprite is: " + minIndex + "with a dist of : " + minDist);
+
+
+
+
+
+
 
 
         }
