@@ -22,7 +22,7 @@ public class Customer {
 	private boolean dishesEqual(Dish dish1, Dish dish2) {
 		// dish 1 is the dish the customer ordered
 		String[] ingredients1 = dish1.getIngredients();
-		// dish 2 is the dish the chef has handeded in
+		// dish 2 is the dish the chef has handed in
 		String[] ingredients2 = dish2.getIngredients();
 
 		// need to search through all the ingredients to make sure each dish has the same ingredients

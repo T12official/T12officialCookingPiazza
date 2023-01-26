@@ -9,6 +9,8 @@ import java.util.*;
 public class Ingredient extends Sprite {
     private final Type type;
 
+    // need to add plate
+    
     public enum Type {RAW_BURGER, COOKED_BURGER, RAW_TOMATO, CHOPPED_TOMATO, BUN, CHOPPED_BUN};
     Texture rawBurgerTexture;
     Texture cookedBurgerTexture;
@@ -78,6 +80,7 @@ public class Ingredient extends Sprite {
                 break;
             case CHOPPED_BUN:
                 currentTexture = choppedBunTexture;
+            // add plate as well later
         }
         batch.draw(currentTexture, 10, 10);
     }
