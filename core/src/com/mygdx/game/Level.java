@@ -59,6 +59,7 @@ public class Level implements Screen {
     private float GAME_WIDTH = 200;
     private Ingredient ingredient;
     boolean initialize = false;
+    boolean primary = true;
 
     List<String> orderArray = new ArrayList<>();
     overlay myOverlay = new overlay();
@@ -102,11 +103,23 @@ public class Level implements Screen {
             getTimeToIdleGame = 15000;
             timer = TimeUtils.millis();
             initialize = false;
+
+            if (primary){
+
+                Customer tempCustomer = new Customer(new Dish());
+                customerList.add(tempCustomer);
+                primary = false;
+            }
         }
         else {
             if (getTimeElapsedMilliSeconds() > timeToNextCustomer){
                 initialize = true;
-                orderArray.add("test data");
+                if (customerList.size() > 0){
+                    customerList.remove(customerList.size() - 1);
+
+                    orderArray.add("test data");
+                }
+
             }
         }
 
