@@ -20,11 +20,11 @@ public class Station extends Sprite implements InputProcessor {
 
     public Station(Level level){
 
-        Texture texture = new Texture(Gdx.files.internal("Tiles/tabletop_wallknife.png"));//Load image from pathway to use as for the sprite
+        Texture texture = new Texture(Gdx.files.internal("Tiles/tabletop_tenderising.png"));//Load image from pathway to use as for the sprite
         tenderStation = new Sprite(texture, 0, 0, 12,24);//srcWidth and srcHeight need to correspond with the values of the image size
         Texture texture2 = new Texture(Gdx.files.internal("Tiles/tabletop.png"));
         placeHolder= new Sprite(texture2, 0 ,0, 12, 24);
-        Texture texture3 = new Texture(Gdx.files.internal("Tiles/counterFillin.png"));
+        Texture texture3 = new Texture(Gdx.files.internal("Tiles/tabletop_delivery_station.png"));
         devieryStation = new Sprite(texture3, 30,30,12,24);
     }
 
