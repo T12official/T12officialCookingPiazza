@@ -194,6 +194,7 @@ public class Chef extends Sprite implements InputProcessor {
                 velocity.x += walkingSpeed;
                 break;
 
+
         }
 
         return true;

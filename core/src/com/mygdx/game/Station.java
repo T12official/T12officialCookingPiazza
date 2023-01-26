@@ -16,21 +16,15 @@ public class Station extends Sprite implements InputProcessor {
 
     private Sprite tenderStation;//Create new sprite
 
-    public Station(){
+    private Sprite placeHolder;
+
+    public Station(Level level){
 
         Texture texture = new Texture(Gdx.files.internal("Tiles/tabletop_wallknife.png"));//Load image from pathway to use as for the sprite
         tenderStation = new Sprite(texture, 0, 0, 12,24);//srcWidth and srcHeight need to correspond with the values of the image size
-
+        Texture texture2 = new Texture(Gdx.files.internal("Tiles/tabletop.png"));
+        placeHolder= new Sprite(texture2, 0 ,0, 12, 24);
     }
-
-    @Override
-    public void draw(Batch batch){
-        batch.draw(tenderStation, 30, 110, 40, 45);//Place the sprite and set it size in-game
-    }
-
-    
-
-
 
     @Override
     public boolean keyDown(int keycode) {
@@ -38,6 +32,14 @@ public class Station extends Sprite implements InputProcessor {
             interacted = true;
         }
         return true;
+    }
+
+    @Override
+    public void draw(Batch batch) {
+        batch.draw(tenderStation, 30, 110, 40, 45);//Place the sprite and set it size in-game
+        if (interacted == true) {
+            batch.draw(placeHolder, 10, 10, 40, 45);
+        }
     }
 
     @Override
