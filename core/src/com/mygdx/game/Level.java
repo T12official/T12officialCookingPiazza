@@ -1,6 +1,7 @@
 package com.mygdx.game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
+import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.GL20;
@@ -169,13 +170,23 @@ public class Level implements Screen {
         tiledMap = new TmxMapLoader().load("gameMaps/level2.tmx");
         chef1 = new Chef(this);
         station = new Station(this);
+
         InputMultiplexer inputMultiplexer = new InputMultiplexer();//Allows for inputs from other classes
-        //inputMultiplexer.addProcessor(chef1);//Add inputs from chef class
-        inputMultiplexer.addProcessor(station);//Add inputs from station class
+        //inputMultiplexer.addProcessor(station);
+
+
+        InputProcessor[] cars = {chef1, station};
+
+
+        inputMultiplexer.setProcessors(cars);
+        inputMultiplexer.getProcessors();
+        //inputMultiplexer.setProcessors(chef1);//Add inputs from chef class
+        //Add inputs from station class
+        Gdx.input.setInputProcessor(inputMultiplexer);
         tiledMapRenderer = new OrthogonalTiledMapRenderer(tiledMap);
         float aspectRatio = (float) (Gdx.graphics.getHeight() / Gdx.graphics.getWidth());
         camera = new OrthographicCamera(GAME_HEIGHT * aspectRatio, GAME_WIDTH * aspectRatio);
-        Gdx.input.setInputProcessor(inputMultiplexer);
+
 
     }
 
@@ -237,6 +248,9 @@ public class Level implements Screen {
         idleTime = TimeUtils.millis();
         gridArray = new ArrayList<>();
         readAssetFile("gameMaps/gameMap.txt");
+    }
+    public Sprite[] getSprites (){
+        return station.mySprites;
     }
 
     public long getTimeElapsedMilliSeconds(){

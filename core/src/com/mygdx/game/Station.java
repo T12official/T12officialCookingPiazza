@@ -17,6 +17,7 @@ public class Station extends Sprite implements InputProcessor {
     private Sprite tenderStation;//Create new sprite
     private Sprite devieryStation;
     private Sprite placeHolder;
+    public Sprite[] mySprites = {tenderStation, devieryStation, placeHolder};
 
     public Station(Level level){
 
@@ -31,6 +32,7 @@ public class Station extends Sprite implements InputProcessor {
     @Override
     public boolean keyDown(int keycode) {
         if (keycode == Input.Keys.E ) {
+            System.out.println("sdusfdskhkfdukhweffweqkhuwefwefkhuwefkhuwefkhfweukhfwehukefw");
             interacted = true;
         }
         return true;
