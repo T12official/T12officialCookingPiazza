@@ -1,10 +1,13 @@
 package com.mygdx.game;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.InputMultiplexer;
+import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapRenderer;
@@ -37,9 +40,19 @@ public class Level implements Screen {
     float stateTime;
     SpriteBatch batch;
     private Chef chef1;
+    private Station station;
 
     final static int MAP_HEIGHT = 10;
     final static int MAP_WIDTH = 7;
+    private Stage stage;
+    private float GAME_HEIGHT = 100;
+    private float GAME_WIDTH = 200;
+    private Ingredient ingredient;
+    boolean initialize = false;
+    boolean primary = true;
+
+    List<String> orderArray = new ArrayList<>();
+    Overlay myOverlay;
 
     @Override
     public void render(float delta) {
@@ -60,7 +73,7 @@ public class Level implements Screen {
         tiledMapRenderer.render();
         camera.position.set(chef1.getX() + chef1.getWidth() / 2, chef1.getY() + chef1.getHeight() / 2, 0);
         Stage stage = new Stage(new FitViewport(32 * MAP_WIDTH, 32 * MAP_HEIGHT, camera));
-        Overlay myOverlay = new Overlay();
+        myOverlay = new Overlay();
         myOverlay.setUpTable(stage);
         myOverlay.setTableBackgroundColor(230,0,0,60);
         myOverlay.addText("example Text");
@@ -68,47 +81,87 @@ public class Level implements Screen {
 
         myOverlay.removeRow(0,1);
         myOverlay.addText("third");
-//        stage.addActor(table);
-//
-//        Texture  texture = new Texture(Gdx.files.internal("Tiles/kitchen_fridge.png"));
-//        TextureRegion upRegion = new TextureRegion(texture, 20, 20, 50, 50);
-//
-//        TextButton.TextButtonStyle style = new TextButton.TextButtonStyle();
-//        style.up = new TextureRegionDrawable(upRegion);
-//        style.font = new BitmapFont(Gdx.files.internal("bitmapfont/Amble-Regular-26.fnt"));;
-//
-//        TextButton button1 = new TextButton("Button 1", style);
-//        Pixmap bgPixmap = new Pixmap(1,1, Pixmap.Format.RGBA8888);
-//        bgPixmap.setColor(88);
-//        bgPixmap.setColor(69,55,3,150);
-//        bgPixmap.fill();
-//        TextureRegionDrawable textureRegionDrawableBg = new TextureRegionDrawable(new TextureRegion(new Texture(bgPixmap)));
-//        textureRegionDrawableBg.
-//
-//
-//        table.add(button1);
-//        table.background(textureRegionDrawableBg);
+
+        if (initialize){
+            timeToNextCustomer = 10000;
+            getTimeToIdleGame = 15000;
+            timer = TimeUtils.millis();
+            initialize = false;
+
+            if (primary){
+                Customer tempCustomer = new Customer(new Dish());
+                customerList.add(tempCustomer);
+                primary = false;
+            }
+        }
+        else {
+            if (getTimeElapsedMilliSeconds() > timeToNextCustomer){
+                initialize = true;
+                if (customerList.size() > 0){
+                    customerList.remove(customerList.size() - 1);
+                    orderArray.add("test data");
+                }
+            }
+        }
+
+        updateOverlay();
+        //stage.addActor(table);
+
+        //Texture  texture = new Texture(Gdx.files.internal("Tiles/kitchen_fridge.png"));
+        //TextureRegion upRegion = new TextureRegion(texture, 20, 20, 50, 50);
+
+        //TextButton.TextButtonStyle style = new TextButton.TextButtonStyle();
+        //style.up = new TextureRegionDrawable(upRegion);
+        //style.font = new BitmapFont(Gdx.files.internal("bitmapfont/Amble-Regular-26.fnt"));;
+
+       // TextButton button1 = new TextButton("Button 1", style);
+       // Pixmap bgPixmap = new Pixmap(1,1, Pixmap.Format.RGBA8888);
+        //bgPixmap.setColor(88);
+        //bgPixmap.setColor(69,55,3,150);
+       // bgPixmap.fill();
+      //  TextureRegionDrawable textureRegionDrawableBg = new TextureRegionDrawable(new TextureRegion(new Texture(bgPixmap)));
+        //textureRegionDrawableBg.
+
+
+       // table.add(button1);
+       // table.background(textureRegionDrawableBg);
         stage.draw();
 
         batch.begin();
         batch.setProjectionMatrix(camera.combined);
         chef1.draw(batch, delta);
         ingredient.draw(batch);
+        station.draw(batch);
 
         batch.end();
         camera.update();
+    }
+
+    private void updateOverlay(){
+        for (int i = 0 ; i < orderArray.size(); i ++){
+            myOverlay.addText(orderArray.get(i));
+        }
     }
 
     @Override
     public void show() {
         tiledMap = new TmxMapLoader().load("gameMaps/level2.tmx");
         chef1 = new Chef(this);
+        station = new Station(this);
+
+        InputMultiplexer inputMultiplexer = new InputMultiplexer();//Allows for inputs from other classes
+        //inputMultiplexer.addProcessor(station);
+        InputProcessor[] cars = {chef1, station};
+        inputMultiplexer.setProcessors(cars);
+        inputMultiplexer.getProcessors();
+        //inputMultiplexer.setProcessors(chef1);//Add inputs from chef class
+        //Add inputs from station class
+        Gdx.input.setInputProcessor(inputMultiplexer);
         tiledMapRenderer = new OrthogonalTiledMapRenderer(tiledMap);
         float aspectRatio = (float) (Gdx.graphics.getHeight() / Gdx.graphics.getWidth());
         float GAME_HEIGHT = 100;
         float GAME_WIDTH = 200;
         camera = new OrthographicCamera(GAME_HEIGHT * aspectRatio, GAME_WIDTH * aspectRatio);
-        Gdx.input.setInputProcessor(chef1);
     }
 
     @Override
@@ -159,6 +212,10 @@ public class Level implements Screen {
         idleTime = TimeUtils.millis();
         gridArray = new ArrayList<>();
         readAssetFile("gameMaps/gameMap.txt");
+    }
+
+    public Sprite[] getSprites (){
+        return station.getSprites();
     }
 
     public long getTimeElapsedMilliSeconds(){

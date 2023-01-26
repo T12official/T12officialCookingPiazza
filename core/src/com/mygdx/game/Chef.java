@@ -27,6 +27,7 @@ public class Chef extends Sprite implements InputProcessor {
     private float walkingSpeed;
     private float runningSpeed;
 
+    Level level;
     private TextureRegion[][] allTiles;
     private static final int BASE_WIDTH = 12;
     private static final int BASE_HEIGHT = 18;
@@ -191,6 +192,23 @@ public class Chef extends Sprite implements InputProcessor {
                 currentDirection = Direction.RIGHT;
                 velocity.x += walkingSpeed;
                 break;
+            case (Input.Keys.E ):
+                Sprite[] stationArray = level.getSprites();
+                System.out.println("sdusfdskhkfdukhweffweqkhuwefwefkhuwefkhuwefkhfweukhfwehukefw:" + stationArray.length );
+
+//                System.out.println(stationArray.);
+
+                double minDist = 10000;
+                int minIndex = 0;
+                for (int i = 0 ; i < stationArray.length ; i ++){
+//                    System.out.println(stationArray[i].getX() + stationArray[i].getY());
+                    double currentDist =  Math.sqrt(   Math.pow ((stationArray[i].getX() - getX()), 2 ) + Math.pow( (stationArray[i].getY() - getY()) , 2) );
+                    if (minDist > currentDist){
+                        minDist = currentDist;
+                        minIndex = i;
+                    }
+                }
+                System.out.println("my closest sprite is: " + minIndex + "with a dist of : " + minDist);
         }
         if (currentDirection == Direction.LEFT) {
             flipChef = true;

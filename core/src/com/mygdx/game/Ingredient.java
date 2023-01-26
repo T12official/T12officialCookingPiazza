@@ -7,7 +7,7 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 
 public class Ingredient extends Sprite {
     private final Type type;
-    // TODO: add plate
+    // TODO: add plate & dish types
 
     public enum Type { RAW_BURGER, COOKED_BURGER, RAW_TOMATO, CHOPPED_TOMATO, BUN, CHOPPED_BUN }
     Texture rawBurgerTexture;
