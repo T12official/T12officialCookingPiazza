@@ -55,7 +55,6 @@ public class Level implements Screen {
     private float GAME_HEIGHT = 100;
     private float GAME_WIDTH = 200;
     private Ingredient ingredient;
-    private Station station;
 
 
     @Override
@@ -76,7 +75,6 @@ public class Level implements Screen {
         batch = new SpriteBatch();
         chefList = new ArrayList<>();
         ingredient = new Ingredient();
-        station = new Station();
 
 
         tiledMapRenderer.render();
@@ -117,7 +115,6 @@ public class Level implements Screen {
         batch.setProjectionMatrix(camera.combined);
         chef1.draw(batch, delta);
         ingredient.draw(batch);
-        station.draw(batch);
 
         batch.end();
         camera.update();
