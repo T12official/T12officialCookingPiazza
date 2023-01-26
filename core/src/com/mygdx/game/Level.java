@@ -50,13 +50,19 @@ public class Level implements Screen {
     SpriteBatch batch;
     private Chef chef1;
 
+    private Station station;
+
     final static int MAP_HEIGHT = 10;
     final static int MAP_WIDTH = 7;
     private Stage stage;
     private float GAME_HEIGHT = 100;
     private float GAME_WIDTH = 200;
     private Ingredient ingredient;
-    private Station station;
+    boolean initialize = false;
+
+    List<String> orderArray = new ArrayList<>();
+    overlay myOverlay = new overlay();
+
 
 
     @Override
@@ -77,13 +83,12 @@ public class Level implements Screen {
         batch = new SpriteBatch();
         chefList = new ArrayList<>();
         ingredient = new Ingredient();
-        //station = new Station();
 
 
         tiledMapRenderer.render();
         camera.position.set(chef1.getX() + chef1.getWidth() / 2, chef1.getY() + chef1.getHeight() / 2, 0);
         stage = new Stage(new FitViewport(32*MAP_WIDTH, 32*MAP_HEIGHT, camera));
-        overlay myOverlay = new overlay();
+
         myOverlay.setUpTable(stage);
         myOverlay.setTableBackgroundColor(230,0,0,60);
         myOverlay.addText("example Text");
@@ -91,6 +96,21 @@ public class Level implements Screen {
 
         myOverlay.removeRow(0,1);
         myOverlay.addText("third");
+
+        if (initialize){
+            timeToNextCustomer = 10000;
+            getTimeToIdleGame = 15000;
+            timer = TimeUtils.millis();
+            initialize = false;
+        }
+        else {
+            if (getTimeElapsedMilliSeconds() > timeToNextCustomer){
+                initialize = true;
+                orderArray.add("test data");
+            }
+        }
+
+        updateOverlay();
         //stage.addActor(table);
 
         //Texture  texture = new Texture(Gdx.files.internal("Tiles/kitchen_fridge.png"));
@@ -122,6 +142,13 @@ public class Level implements Screen {
 
         batch.end();
         camera.update();
+    }
+
+    private void updateOverlay(){
+        for (int i = 0 ; i < orderArray.size(); i ++){
+            myOverlay.addText(orderArray.get(i));
+        }
+
     }
 
     @Override
