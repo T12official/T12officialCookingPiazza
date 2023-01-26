@@ -15,7 +15,7 @@ public class Station extends Sprite implements InputProcessor {
     private SpriteBatch batch;
 
     private Sprite tenderStation;//Create new sprite
-
+    private Sprite devieryStation;
     private Sprite placeHolder;
 
     public Station(Level level){
@@ -24,6 +24,8 @@ public class Station extends Sprite implements InputProcessor {
         tenderStation = new Sprite(texture, 0, 0, 12,24);//srcWidth and srcHeight need to correspond with the values of the image size
         Texture texture2 = new Texture(Gdx.files.internal("Tiles/tabletop.png"));
         placeHolder= new Sprite(texture2, 0 ,0, 12, 24);
+        Texture texture3 = new Texture(Gdx.files.internal("Tiles/counterFillin.png"));
+        devieryStation = new Sprite(texture3, 30,30,12,24);
     }
 
     @Override
@@ -37,6 +39,7 @@ public class Station extends Sprite implements InputProcessor {
     @Override
     public void draw(Batch batch) {
         batch.draw(tenderStation, 30, 110, 40, 45);//Place the sprite and set it size in-game
+        batch.draw(devieryStation, 185,0,40,45);
         if (interacted == true) {
             batch.draw(placeHolder, 10, 10, 40, 45);
         }

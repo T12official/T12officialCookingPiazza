@@ -170,7 +170,7 @@ public class Level implements Screen {
         chef1 = new Chef(this);
         station = new Station(this);
         InputMultiplexer inputMultiplexer = new InputMultiplexer();//Allows for inputs from other classes
-        inputMultiplexer.addProcessor(chef1);//Add inputs from chef class
+        //inputMultiplexer.addProcessor(chef1);//Add inputs from chef class
         inputMultiplexer.addProcessor(station);//Add inputs from station class
         tiledMapRenderer = new OrthogonalTiledMapRenderer(tiledMap);
         float aspectRatio = (float) (Gdx.graphics.getHeight() / Gdx.graphics.getWidth());
