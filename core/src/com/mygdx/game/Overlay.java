@@ -1,22 +1,10 @@
 package com.mygdx.game;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.files.FileHandle;
-import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.maps.tiled.TiledMap;
-import com.badlogic.gdx.maps.tiled.TiledMapRenderer;
-import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
-import com.badlogic.gdx.maps.tiled.TmxMapLoader;
-import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
@@ -24,25 +12,17 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.SnapshotArray;
-import com.badlogic.gdx.utils.TimeUtils;
-import com.badlogic.gdx.utils.viewport.FitViewport;
-import com.badlogic.gdx.utils.viewport.StretchViewport;
-
 
 import java.awt.*;
-import java.util.*;
-import java.util.List;
 
-
-
-public class overlay {
+public class Overlay {
 
     private Table table;
 
     public void setUpTable(Stage stage){
         table = new Table();
         table.setFillParent(false);
-       // table.debug();
+//        table.debug();
         table.setPosition(100,50);
         table.sizeBy(100,100);
         stage.addActor(table);
@@ -51,52 +31,41 @@ public class overlay {
 
         TextButton.TextButtonStyle style = new TextButton.TextButtonStyle();
         style.up = new TextureRegionDrawable(upRegion);
-        style.font = new BitmapFont(Gdx.files.internal("bitmapfont/Amble-Regular-26.fnt"));;
+        style.font = new BitmapFont(Gdx.files.internal("bitmapfont/Amble-Regular-26.fnt"));
 
-        //TextButton button1 = new TextButton("Button 1", style);
-
-
-
-
-        //bgPixmap.setColor(88);
-
-        //textureRegionDrawableBg.
-
-
-        //table.add(button1);
-       // table.background(textureRegionDrawableBg);
-
+//        TextButton button1 = new TextButton("Button 1", style);
+//        bgPixmap.setColor(88);
+//        textureRegionDrawableBg.
+//        table.add(button1);
+//        table.background(textureRegionDrawableBg);
     }
-
 
     public void setPos(float x, float y){
         table.setPosition(x,y);
     }
+
     public void setTableBackgroundColor(float r, float g, float b, float transparency){
 
-        //Texture  texture = new Texture(Gdx.files.internal("Tiles/kitchen_fridge.png"));
-        //TextureRegion upRegion = new TextureRegion(texture, r, g, b, transparency);
-
-        //TextButton.TextButtonStyle style = new TextButton.TextButtonStyle();
-        //style.up = new TextureRegionDrawable(upRegion);
-        //style.font = new BitmapFont(Gdx.files.internal("bitmapfont/Amble-Regular-26.fnt"));;
-
-        //TextButton button1 = new TextButton("Button 1", style);
+//        Texture  texture = new Texture(Gdx.files.internal("Tiles/kitchen_fridge.png"));
+//        TextureRegion upRegion = new TextureRegion(texture, r, g, b, transparency);
+//
+//        TextButton.TextButtonStyle style = new TextButton.TextButtonStyle();
+//        style.up = new TextureRegionDrawable(upRegion);
+//        style.font = new BitmapFont(Gdx.files.internal("bitmapfont/Amble-Regular-26.fnt"));;
+//
+//        TextButton button1 = new TextButton("Button 1", style);
         Pixmap bgPixmap = new Pixmap(1,1, Pixmap.Format.RGBA8888);
-
-
-
-        //bgPixmap.setColor(88);
+//        bgPixmap.setColor(88);
         bgPixmap.setColor(r,g,b,transparency);
         bgPixmap.fill();
         TextureRegionDrawable textureRegionDrawableBg = new TextureRegionDrawable(new TextureRegion(new Texture(bgPixmap)));
         table.background(textureRegionDrawableBg);
-
     }
+
     public void setSize(float x, float y){
         table.setSize(x,y);
-
     }
+
     public void addText(String textToAdd){
         Skin skin = new Skin(Gdx.files.internal("skins/skin.json"));
         skin.getFont("default").getData().setScale(0.4f,0.4f);
@@ -105,13 +74,8 @@ public class overlay {
         Label textLabel = new Label(textToAdd);
 
         table.row();
-
-
-
         table.add(textToAdd);
-
     }
-
 
     public Table getTable() {
         return table;
@@ -124,7 +88,6 @@ public class overlay {
         for (int i = row*COLUMN_NUMBER; i < children.size - COLUMN_NUMBER; i++) {
             children.swap(i, i + COLUMN_NUMBER);
         }
-
         // Remove last row
         for(int i = 0 ; i < COLUMN_NUMBER; i++) {
             table.removeActor(children.get(children.size - 1));
