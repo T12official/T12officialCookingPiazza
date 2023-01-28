@@ -21,6 +21,8 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.Random;
 
 public class Level implements Screen {
 
@@ -50,9 +52,23 @@ public class Level implements Screen {
     private Ingredient ingredient;
     boolean initialize = false;
     boolean primary = true;
+    Ingredient extraIngri;
+    public Dish trackWithChef = new Dish("DAVE");
 
     List<String> orderArray = new ArrayList<>();
     Overlay myOverlay;
+
+    boolean fryingOnOven = false;
+    boolean isFryingOnOvenInitialize = false;
+    Ingredient fryingOnOvenIngridient;
+
+    long burgerCookingTime;
+
+
+    Dish dishingUpStack = new Dish("new dish");
+
+
+
 
     @Override
     public void render(float delta) {
@@ -68,7 +84,7 @@ public class Level implements Screen {
         tiledMapRenderer.setView(camera);
         batch = new SpriteBatch();
         chefList = new ArrayList<>();
-        Ingredient ingredient = new Ingredient();
+        Ingredient ingredient = new Ingredient(Ingredient.Type.RAW_TOMATO );
 
         tiledMapRenderer.render();
         camera.position.set(chef1.getX() + chef1.getWidth() / 2, chef1.getY() + chef1.getHeight() / 2, 0);
@@ -76,21 +92,30 @@ public class Level implements Screen {
         myOverlay = new Overlay();
         myOverlay.setUpTable(stage);
         myOverlay.setTableBackgroundColor(230,0,0,60);
-        myOverlay.addText("example Text");
-        myOverlay.addText("second tex");
 
-        myOverlay.removeRow(0,1);
-        myOverlay.addText("third");
+
+        myOverlay.addText("Active Orders:");
 
         if (initialize){
-            timeToNextCustomer = 10000;
+            Random myRand = new Random();
+
+            timeToNextCustomer = myRand.nextInt(10000) + 10000;
             getTimeToIdleGame = 15000;
             timer = TimeUtils.millis();
             initialize = false;
 
             if (primary){
-                Customer tempCustomer = new Customer(new Dish());
+                Customer tempCustomer = new Customer(new Dish("Burger"));
+                Customer tempCustomer2 = new Customer(new Dish("Burger"));
+                Customer tempCustomer5 = new Customer(new Dish("Burger"));
+                Customer tempCustomer3 = new Customer(new Dish("Burger"));
+                Customer tempCustomer4 = new Customer(new Dish("Burger"));
+
                 customerList.add(tempCustomer);
+                customerList.add(tempCustomer2);
+                customerList.add(tempCustomer3);
+                customerList.add(tempCustomer4);
+                customerList.add(tempCustomer5);
                 primary = false;
             }
         }
@@ -98,8 +123,10 @@ public class Level implements Screen {
             if (getTimeElapsedMilliSeconds() > timeToNextCustomer){
                 initialize = true;
                 if (customerList.size() > 0){
+                    System.out.println("I ran");
+                    orderArray.add(customerList.get(customerList.size() - 1).order.myDishName);
                     customerList.remove(customerList.size() - 1);
-                    orderArray.add("test data");
+
                 }
             }
         }
@@ -132,6 +159,49 @@ public class Level implements Screen {
         chef1.draw(batch, delta);
         ingredient.draw(batch);
         station.draw(batch);
+        List<Ingredient> setPositions = trackWithChef.getCurrentIngridients();
+        Ingredient temp;
+        for (int i = 0; i < setPositions.size() ; i ++){
+            temp = setPositions.get(i);
+            temp.x = chef1.getX();
+            temp.y = chef1.getY();
+            temp.draw(batch);
+        }
+
+        if (fryingOnOven) {
+            if (isFryingOnOvenInitialize){
+                burgerCookingTime = TimeUtils.millis();
+                isFryingOnOvenInitialize = false;
+            }
+            else {
+                if (TimeUtils.timeSinceMillis(burgerCookingTime) > 8000){
+                    System.out.println("Burger cooked");
+                    fryingOnOven = false;
+                    fryingOnOvenIngridient.setType(Ingredient.Type.COOKED_BURGER);
+
+                }
+            }
+        }
+        if (fryingOnOvenIngridient != null) {
+            fryingOnOvenIngridient.x = 90f;
+            fryingOnOvenIngridient.y = 110f;
+            fryingOnOvenIngridient.draw(batch);
+        }
+        for (int i = 0 ; i < dishingUpStack.getCurrentIngridients().size(); i ++){
+            dishingUpStack.getCurrentIngridients().get(i).x = 123f;
+            dishingUpStack.getCurrentIngridients().get(i).y = 123f;
+            dishingUpStack.getCurrentIngridients().get(i).draw(batch);
+
+        }
+
+
+
+        //if (extraIngri == null){
+//
+        //}
+        //else {
+        //    extraIngri.draw(batch);
+        //}
 
         batch.end();
         camera.update();
@@ -141,6 +211,10 @@ public class Level implements Screen {
         for (int i = 0 ; i < orderArray.size(); i ++){
             myOverlay.addText(orderArray.get(i));
         }
+    }
+
+    public Map<String, List<Double>> getSpriteData(){
+        return station.getSpriteData();
     }
 
     @Override

@@ -8,6 +8,12 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
+
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 public class Station extends Sprite implements InputProcessor {
     private boolean interacted = false;
 
@@ -17,11 +23,35 @@ public class Station extends Sprite implements InputProcessor {
     private Sprite cookStation;
     private Sprite plateStation;
     private Sprite deliveryStation;
+    private Sprite burgerStation;
+    private Sprite tomatoStation;
+    private Sprite bunStation;
 
     public Sprite[] getSprites(){
         Sprite[] a = {tenderStation, cutStation, cookStation, plateStation, deliveryStation};
         return a;
 
+    }
+
+    public Map<String, List<Double>> getSpriteData(){
+        Map<String, List<Double>> dictionary = new HashMap<String, List<Double>>();
+        List<Double> x_y = Arrays.asList(30.0,110.0);
+        dictionary.put("tenderStation", x_y );
+        List<Double> x_y2 = Arrays.asList(60.0,110.0);
+        dictionary.put("cutStation", x_y2 );
+        List<Double> x_y3 = Arrays.asList(90.0,110.0);
+        dictionary.put("cookStation", x_y3 );
+        List<Double> x_y4 = Arrays.asList(120.0,110.0);
+        dictionary.put("plateStation", x_y4 );
+        List<Double> x_y5 = Arrays.asList(150.0,110.0);
+        dictionary.put("deliveryStation", x_y5 );
+        List<Double> x_y6 = Arrays.asList(180.0,110.0);
+        dictionary.put("burgerStation", x_y6 );
+        List<Double> x_y7 = Arrays.asList(30.0,205.0);
+        dictionary.put("tomatoStation", x_y7 );
+        List<Double> x_y8 = Arrays.asList(60.0,205.0);
+        dictionary.put("bunStation", x_y8 );
+        return dictionary;
     }
 
     public Station(Level level){
@@ -40,6 +70,15 @@ public class Station extends Sprite implements InputProcessor {
 
         Texture texture5 = new Texture(Gdx.files.internal("Tiles/tabletop_delivery_station.png"));
         deliveryStation = new Sprite(texture5, 0,0,12,24);
+
+        Texture texture6 = new Texture(Gdx.files.internal("Tiles/tabletop.png"));
+        burgerStation = new Sprite(texture6, 0,0,12,24);
+
+        Texture texture7 = new Texture(Gdx.files.internal("Tiles/tabletop.png"));
+        tomatoStation = new Sprite(texture7, 0,0,12,24);
+
+        Texture texture8 = new Texture(Gdx.files.internal("Tiles/tabletop.png"));
+        bunStation = new Sprite(texture8, 0,0,12,24);
 
         Sprite[] mySprites = {tenderStation, cutStation, cookStation, plateStation, deliveryStation};
     }
@@ -61,6 +100,9 @@ public class Station extends Sprite implements InputProcessor {
         batch.draw(cookStation, 90, 110, 30, 45);
         batch.draw(plateStation, 120, 110, 30, 45);
         batch.draw(deliveryStation, 150, 110, 30, 45);
+        batch.draw(burgerStation, 180,110,30,45);
+        batch.draw(tomatoStation, 30,205, 30,45);
+        batch.draw(bunStation, 60,205,30,45);
     }
 
     @Override

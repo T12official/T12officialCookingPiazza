@@ -8,6 +8,11 @@ import com.badlogic.gdx.graphics.g2d.*;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.math.Vector2;
 
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+
 public class Chef extends Sprite implements InputProcessor {
 
     SpriteBatch spriteBatch;
@@ -27,7 +32,10 @@ public class Chef extends Sprite implements InputProcessor {
     private float walkingSpeed;
     private float runningSpeed;
 
+    private Dish HoldingDish = new Dish("new Dish");
+
     Level level;
+    Level myLev;
     private TextureRegion[][] allTiles;
     private static final int BASE_WIDTH = 12;
     private static final int BASE_HEIGHT = 18;
@@ -50,6 +58,7 @@ public class Chef extends Sprite implements InputProcessor {
     }
 
     public Chef(Level level){
+        myLev = level;
         walkingSpeed = 120;
         currentState = State.STANDING;
         collisionLayer = level.getMapTileLayer(1);
@@ -109,7 +118,7 @@ public class Chef extends Sprite implements InputProcessor {
 
         if (collideY) {
             setY(oldY);
-            System.out.println("collidedY");
+            //System.out.println("collidedY");
             velocity.y = 0;
         }
     }
@@ -193,22 +202,33 @@ public class Chef extends Sprite implements InputProcessor {
                 velocity.x += walkingSpeed;
                 break;
             case (Input.Keys.E ):
-                Sprite[] stationArray = level.getSprites();
-                System.out.println("sdusfdskhkfdukhweffweqkhuwefwefkhuwefkhuwefkhfweukhfwehukefw:" + stationArray.length );
-
-//                System.out.println(stationArray.);
 
                 double minDist = 10000;
                 int minIndex = 0;
-                for (int i = 0 ; i < stationArray.length ; i ++){
-//                    System.out.println(stationArray[i].getX() + stationArray[i].getY());
-                    double currentDist =  Math.sqrt(   Math.pow ((stationArray[i].getX() - getX()), 2 ) + Math.pow( (stationArray[i].getY() - getY()) , 2) );
-                    if (minDist > currentDist){
+                Map<String, List<Double>> data = new HashMap<String, List<Double>>();
+                data = myLev.getSpriteData();
+                Iterator<String> a = data.keySet().iterator();
+                String shorttest = "";
+                String temp;
+                List<Double> x_y;
+                while(a.hasNext()){
+                   temp = a.next();
+                   System.out.println(temp);
+                   x_y = data.get(temp);
+                    double currentDist =  Math.sqrt(   Math.pow ((x_y.get(0) - getX()), 2 ) + Math.pow( (x_y.get(1) - getY()) , 2) );
+                    if (currentDist < minDist){
                         minDist = currentDist;
-                        minIndex = i;
+                        shorttest = temp;
                     }
                 }
-                System.out.println("my closest sprite is: " + minIndex + "with a dist of : " + minDist);
+                if (minDist < 30) {
+                    System.out.println("you are interacting with:" + shorttest);
+                    performInteract(shorttest);
+                }
+                else {
+                    System.out.println("to far to interact with cloest: " + shorttest);
+                }
+
         }
         if (currentDirection == Direction.LEFT) {
             flipChef = true;
@@ -217,6 +237,125 @@ public class Chef extends Sprite implements InputProcessor {
 
         return true;
     }
+
+
+
+    private void performInteract(String station){
+        switch (station){
+            case "tenderStation":
+                break;
+            case "cutStation":
+                if (HoldingDish.getCurrentIngridients().get(0).getType() == Ingredient.Type.RAW_TOMATO){
+                    //TODO implement delay on the cutting
+
+                    HoldingDish.getCurrentIngridients().get(0).setType(Ingredient.Type.CHOPPED_TOMATO);
+                }
+                if (HoldingDish.getCurrentIngridients().get(0).getType() == Ingredient.Type.BUN){
+                    System.out.println("cutting no2");
+                    HoldingDish.getCurrentIngridients().get(0).setType(Ingredient.Type.CHOPPED_BUN);
+
+                }
+
+                break;
+            case "cookStation":
+                if (HoldingDish.getCurrentIngridients().size() == 0){
+                    if (myLev.fryingOnOvenIngridient.getType() == Ingredient.Type.COOKED_BURGER){
+                        System.out.println("grabbing");
+                        HoldingDish.addIngridientClass(myLev.fryingOnOvenIngridient);
+                        myLev.fryingOnOvenIngridient = null;
+                        myLev.trackWithChef = HoldingDish;
+                    }
+                }
+                if (Ingredient.Type.RAW_BURGER == HoldingDish.getCurrentIngridients().get(0).getType() ){
+                    myLev.isFryingOnOvenInitialize = true;
+                    myLev.fryingOnOven = true;
+                    myLev.fryingOnOvenIngridient = HoldingDish.getCurrentIngridients().get(0);
+                    HoldingDish.getCurrentIngridients().remove(0);
+                    myLev.trackWithChef = HoldingDish;
+
+                    System.out.println("Cooking burger");
+                }
+
+
+                break;
+            case "plateStation":
+                if (HoldingDish.getCurrentIngridients().size() == 0) {
+                    for (int i = 0; i < myLev.dishingUpStack.getCurrentIngridients().size() ; i ++){
+                        HoldingDish.addIngridientClass(myLev.dishingUpStack.getCurrentIngridients().get(i));
+                    }
+                    myLev.dishingUpStack = new Dish("asd");
+                    Ingredient newPlate = new Ingredient(Ingredient.Type.PLATE);
+                    newPlate.x = getX();
+                    newPlate.y = getY();
+                    // newPlate.setCenterY(getY());
+                    myLev.extraIngri = newPlate;
+                    HoldingDish.addIngridientClass(newPlate);
+                    myLev.trackWithChef = HoldingDish;
+                }
+                else {
+                    System.out.println("running this bit ");
+                    for (int i = HoldingDish.getCurrentIngridients().size() - 1; i >= 0; i --){
+                        myLev.dishingUpStack.addIngridientClass( HoldingDish.getCurrentIngridients().get(i));
+                        HoldingDish.getCurrentIngridients().remove(i);
+
+                    }
+                    myLev.trackWithChef = HoldingDish;
+                }
+
+                break;
+            case "deliveryStation":
+                boolean isBurger = false;
+                boolean hasCookedBurger = false;
+                boolean hasChoppedTomatoes = false;
+                boolean hasChoppedBun = false;
+                for (int i = 0; i < HoldingDish.getCurrentIngridients().size(); i ++){
+                    if (HoldingDish.getCurrentIngridients().get(i).getType() == Ingredient.Type.COOKED_BURGER){hasCookedBurger=true;}
+                    if (HoldingDish.getCurrentIngridients().get(i).getType() == Ingredient.Type.CHOPPED_BUN){hasChoppedBun=true;}
+                    if (HoldingDish.getCurrentIngridients().get(i).getType() == Ingredient.Type.CHOPPED_TOMATO){hasChoppedTomatoes = true;}
+                }
+                if (hasChoppedBun && hasChoppedTomatoes && hasCookedBurger){
+                    System.out.println("This is a burger!!!!!!");
+                    HoldingDish = new Dish("purge");
+                    myLev.trackWithChef = HoldingDish;
+                    if (myLev.orderArray.size() > 0){
+                        myLev.orderArray.remove(0);
+                    }
+                }
+                break;
+            case "burgerStation":
+                Ingredient newBurger = new Ingredient(Ingredient.Type.RAW_BURGER);
+                newBurger.x = getX();
+                newBurger.y = getY();
+                // newPlate.setCenterY(getY());
+                myLev.extraIngri = newBurger;
+                HoldingDish.addIngridientClass(newBurger);
+                myLev.trackWithChef = HoldingDish;
+
+                break;
+            case "tomatoStation":
+                System.out.println("tomatoes");
+                Ingredient newTomato = new Ingredient(Ingredient.Type.RAW_TOMATO);
+                newTomato.x  =getX();
+                newTomato.y = getY();
+                HoldingDish.addIngridientClass(newTomato);
+                myLev.trackWithChef = HoldingDish;
+
+                break;
+            case "bunStation":
+
+                Ingredient newBuns = new Ingredient(Ingredient.Type.BUN);
+                newBuns.x = getX();
+                newBuns.y = getY();
+                HoldingDish.addIngridientClass(newBuns);
+                myLev.trackWithChef = HoldingDish;
+                System.out.println("buns");
+                default:
+                return;
+
+
+        }
+    }
+
 
     @Override
     public boolean keyUp(int keycode) {

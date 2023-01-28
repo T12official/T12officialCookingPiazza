@@ -4,11 +4,12 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class Dish extends Ingredient {
+public class Dish {
 	private List<String> ingredients = new ArrayList<String>();
-
+	private List<Ingredient> currentIngridients = new ArrayList<>();
+	String myDishName;
 	public Dish(String dishName) {
-
+		myDishName = dishName;
 		// Burger and Salad are pre-made dishes for the customers to order
 		if (dishName == "Burger") {
 			this.addIngredients("cooked burger");
@@ -38,6 +39,16 @@ public class Dish extends Ingredient {
 	public void addIngredients(String ingredientName) {
 		ingredients.add(ingredientName);
 	}
+
+	public List<Ingredient> getCurrentIngridients() {
+		return currentIngridients;
+	}
+
+	public void addIngridientClass(Ingredient myIn){
+		currentIngridients.add(myIn);
+	}
+
+
 
 	public List<String> getIngredients() {
         return ingredients;

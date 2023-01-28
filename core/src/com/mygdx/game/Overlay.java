@@ -23,7 +23,7 @@ public class Overlay {
         table = new Table();
         table.setFillParent(false);
 //        table.debug();
-        table.setPosition(100,50);
+        table.setPosition(120,210);
         table.sizeBy(100,100);
         stage.addActor(table);
         Texture  texture = new Texture(Gdx.files.internal("Tiles/kitchen_fridge.png"));

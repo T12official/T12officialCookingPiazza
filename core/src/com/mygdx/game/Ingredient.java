@@ -6,10 +6,12 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 
 public class Ingredient extends Sprite {
-    private final Type type;
+    private Type type;
+    public Float  x;
+    public Float y;
     // TODO: add plate & dish types
 
-    public enum Type { RAW_BURGER, COOKED_BURGER, RAW_TOMATO, CHOPPED_TOMATO, BUN, CHOPPED_BUN }
+    public enum Type { RAW_BURGER, COOKED_BURGER, RAW_TOMATO, CHOPPED_TOMATO, BUN, CHOPPED_BUN, PLATE }
     Texture rawBurgerTexture;
     Texture cookedBurgerTexture;
     Texture rawTomatoTexture;
@@ -17,8 +19,10 @@ public class Ingredient extends Sprite {
     Texture bunTexture;
     Texture choppedBunTexture;
     Texture currentTexture;
+    Texture plateTexture;
 
-    public Ingredient(){
+    public Ingredient(Type myType){
+        type = myType;
         // TODO: create function and optimize
         Pixmap pixmap = new Pixmap( 16, 16, Pixmap.Format.RGBA8888 );
         pixmap.setColor( 1, 0, 0, 0.75f );
@@ -46,11 +50,17 @@ public class Ingredient extends Sprite {
         bunTexture = new Texture(pixmap4);
 
         Pixmap pixmap5 = new Pixmap( 16, 16, Pixmap.Format.RGBA8888 );
-        pixmap5.setColor(1, 1, 100, 0.75f);
-        pixmap5.fillCircle( 8, 8, 4 );
+        pixmap5.setColor(55, 43, 100, 0.75f);
+        pixmap4.fillCircle( 8, 8, 4 );
+
         choppedBunTexture = new Texture(pixmap5);
 
-        type = Type.RAW_TOMATO;
+        Pixmap pixmap6 = new Pixmap( 16, 16, Pixmap.Format.RGBA8888 );
+        pixmap6.setColor(60, 60, 60, 0.75f);
+        pixmap6.fillCircle( 8, 8, 4 );
+        plateTexture = new Texture(pixmap6);
+
+        //type = Type.RAW_TOMATO;
     }
 
     @Override
@@ -74,8 +84,21 @@ public class Ingredient extends Sprite {
                 break;
             case CHOPPED_BUN:
                 currentTexture = choppedBunTexture;
+            case PLATE:
+                currentTexture = plateTexture;
             // TODO: add PLATE case
         }
-        batch.draw(currentTexture, 10, 10);
+        if (x == null || y == null) {
+            batch.draw(currentTexture, 10, 10);
+        }else {
+            batch.draw(currentTexture,  x,  y);
+        }
+    }
+
+    public Type getType() {
+        return type;
+    }
+    public void setType(Type a){
+        type = a;
     }
 }

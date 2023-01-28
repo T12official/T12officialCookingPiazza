@@ -29,7 +29,7 @@ public class T12Piazza extends Game {
 		}
 		if (myLevelManager.getTimeSinceLastIO() > myLevelManager.getMinIdleTime()){
 			// This is statement is checking the time since the last user I/O. If the time has been suffiently long it request the game move to the idle mode
-			System.out.println("Activate idle");
+			//System.out.println("Activate idle");
 		}
 	}
 
