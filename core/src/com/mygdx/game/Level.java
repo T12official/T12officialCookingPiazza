@@ -159,7 +159,7 @@ public class Level implements Screen {
         chef1.draw(batch, delta);
         ingredient.draw(batch);
         station.draw(batch);
-        List<Ingredient> setPositions = trackWithChef.getCurrentIngridients();
+        List<Ingredient> setPositions = trackWithChef.getCurrentIngredients();
         Ingredient temp;
         for (int i = 0; i < setPositions.size() ; i ++){
             temp = setPositions.get(i);
@@ -187,10 +187,10 @@ public class Level implements Screen {
             fryingOnOvenIngridient.y = 110f;
             fryingOnOvenIngridient.draw(batch);
         }
-        for (int i = 0 ; i < dishingUpStack.getCurrentIngridients().size(); i ++){
-            dishingUpStack.getCurrentIngridients().get(i).x = 123f;
-            dishingUpStack.getCurrentIngridients().get(i).y = 123f;
-            dishingUpStack.getCurrentIngridients().get(i).draw(batch);
+        for (int i = 0 ; i < dishingUpStack.getCurrentIngredients().size(); i ++){
+            dishingUpStack.getCurrentIngredients().get(i).x = 123f;
+            dishingUpStack.getCurrentIngredients().get(i).y = 123f;
+            dishingUpStack.getCurrentIngredients().get(i).draw(batch);
 
         }
 
