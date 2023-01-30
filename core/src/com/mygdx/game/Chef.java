@@ -245,32 +245,32 @@ public class Chef extends Sprite implements InputProcessor {
             case "tenderStation":
                 break;
             case "cutStation":
-                if (HoldingDish.getCurrentIngridients().get(0).getType() == Ingredient.Type.RAW_TOMATO){
+                if (HoldingDish.getCurrentIngredients().get(0).getType() == Ingredient.Type.RAW_TOMATO){
                     //TODO implement delay on the cutting
 
-                    HoldingDish.getCurrentIngridients().get(0).setType(Ingredient.Type.CHOPPED_TOMATO);
+                    HoldingDish.getCurrentIngredients().get(0).setType(Ingredient.Type.CHOPPED_TOMATO);
                 }
-                if (HoldingDish.getCurrentIngridients().get(0).getType() == Ingredient.Type.BUN){
+                if (HoldingDish.getCurrentIngredients().get(0).getType() == Ingredient.Type.BUN){
                     System.out.println("cutting no2");
-                    HoldingDish.getCurrentIngridients().get(0).setType(Ingredient.Type.CHOPPED_BUN);
+                    HoldingDish.getCurrentIngredients().get(0).setType(Ingredient.Type.CHOPPED_BUN);
 
                 }
 
                 break;
             case "cookStation":
-                if (HoldingDish.getCurrentIngridients().size() == 0){
+                if (HoldingDish.getCurrentIngredients().size() == 0){
                     if (myLev.fryingOnOvenIngridient.getType() == Ingredient.Type.COOKED_BURGER){
                         System.out.println("grabbing");
-                        HoldingDish.addIngridientClass(myLev.fryingOnOvenIngridient);
+                        HoldingDish.addIngredientClass(myLev.fryingOnOvenIngridient);
                         myLev.fryingOnOvenIngridient = null;
                         myLev.trackWithChef = HoldingDish;
                     }
                 }
-                if (Ingredient.Type.RAW_BURGER == HoldingDish.getCurrentIngridients().get(0).getType() ){
+                if (Ingredient.Type.RAW_BURGER == HoldingDish.getCurrentIngredients().get(0).getType() ){
                     myLev.isFryingOnOvenInitialize = true;
                     myLev.fryingOnOven = true;
-                    myLev.fryingOnOvenIngridient = HoldingDish.getCurrentIngridients().get(0);
-                    HoldingDish.getCurrentIngridients().remove(0);
+                    myLev.fryingOnOvenIngridient = HoldingDish.getCurrentIngredients().get(0);
+                    HoldingDish.getCurrentIngredients().remove(0);
                     myLev.trackWithChef = HoldingDish;
 
                     System.out.println("Cooking burger");
@@ -279,9 +279,9 @@ public class Chef extends Sprite implements InputProcessor {
 
                 break;
             case "plateStation":
-                if (HoldingDish.getCurrentIngridients().size() == 0) {
-                    for (int i = 0; i < myLev.dishingUpStack.getCurrentIngridients().size() ; i ++){
-                        HoldingDish.addIngridientClass(myLev.dishingUpStack.getCurrentIngridients().get(i));
+                if (HoldingDish.getCurrentIngredients().size() == 0) {
+                    for (int i = 0; i < myLev.dishingUpStack.getCurrentIngredients().size() ; i ++){
+                        HoldingDish.addIngredientClass(myLev.dishingUpStack.getCurrentIngredients().get(i));
                     }
                     myLev.dishingUpStack = new Dish("asd");
                     Ingredient newPlate = new Ingredient(Ingredient.Type.PLATE);
@@ -289,14 +289,14 @@ public class Chef extends Sprite implements InputProcessor {
                     newPlate.y = getY();
                     // newPlate.setCenterY(getY());
                     myLev.extraIngri = newPlate;
-                    HoldingDish.addIngridientClass(newPlate);
+                    HoldingDish.addIngredientClass(newPlate);
                     myLev.trackWithChef = HoldingDish;
                 }
                 else {
                     System.out.println("running this bit ");
-                    for (int i = HoldingDish.getCurrentIngridients().size() - 1; i >= 0; i --){
-                        myLev.dishingUpStack.addIngridientClass( HoldingDish.getCurrentIngridients().get(i));
-                        HoldingDish.getCurrentIngridients().remove(i);
+                    for (int i = HoldingDish.getCurrentIngredients().size() - 1; i >= 0; i --){
+                        myLev.dishingUpStack.addIngredientClass( HoldingDish.getCurrentIngredients().get(i));
+                        HoldingDish.getCurrentIngredients().remove(i);
 
                     }
                     myLev.trackWithChef = HoldingDish;
@@ -308,10 +308,10 @@ public class Chef extends Sprite implements InputProcessor {
                 boolean hasCookedBurger = false;
                 boolean hasChoppedTomatoes = false;
                 boolean hasChoppedBun = false;
-                for (int i = 0; i < HoldingDish.getCurrentIngridients().size(); i ++){
-                    if (HoldingDish.getCurrentIngridients().get(i).getType() == Ingredient.Type.COOKED_BURGER){hasCookedBurger=true;}
-                    if (HoldingDish.getCurrentIngridients().get(i).getType() == Ingredient.Type.CHOPPED_BUN){hasChoppedBun=true;}
-                    if (HoldingDish.getCurrentIngridients().get(i).getType() == Ingredient.Type.CHOPPED_TOMATO){hasChoppedTomatoes = true;}
+                for (int i = 0; i < HoldingDish.getCurrentIngredients().size(); i ++){
+                    if (HoldingDish.getCurrentIngredients().get(i).getType() == Ingredient.Type.COOKED_BURGER){hasCookedBurger=true;}
+                    if (HoldingDish.getCurrentIngredients().get(i).getType() == Ingredient.Type.CHOPPED_BUN){hasChoppedBun=true;}
+                    if (HoldingDish.getCurrentIngredients().get(i).getType() == Ingredient.Type.CHOPPED_TOMATO){hasChoppedTomatoes = true;}
                 }
                 if (hasChoppedBun && hasChoppedTomatoes && hasCookedBurger){
                     System.out.println("This is a burger!!!!!!");
@@ -328,7 +328,7 @@ public class Chef extends Sprite implements InputProcessor {
                 newBurger.y = getY();
                 // newPlate.setCenterY(getY());
                 myLev.extraIngri = newBurger;
-                HoldingDish.addIngridientClass(newBurger);
+                HoldingDish.addIngredientClass(newBurger);
                 myLev.trackWithChef = HoldingDish;
 
                 break;
@@ -337,7 +337,7 @@ public class Chef extends Sprite implements InputProcessor {
                 Ingredient newTomato = new Ingredient(Ingredient.Type.RAW_TOMATO);
                 newTomato.x  =getX();
                 newTomato.y = getY();
-                HoldingDish.addIngridientClass(newTomato);
+                HoldingDish.addIngredientClass(newTomato);
                 myLev.trackWithChef = HoldingDish;
 
                 break;
@@ -346,7 +346,7 @@ public class Chef extends Sprite implements InputProcessor {
                 Ingredient newBuns = new Ingredient(Ingredient.Type.BUN);
                 newBuns.x = getX();
                 newBuns.y = getY();
-                HoldingDish.addIngridientClass(newBuns);
+                HoldingDish.addIngredientClass(newBuns);
                 myLev.trackWithChef = HoldingDish;
                 System.out.println("buns");
                 default:

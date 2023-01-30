@@ -6,7 +6,7 @@ import java.util.List;
 
 public class Dish {
 	private List<String> ingredients = new ArrayList<String>();
-	private List<Ingredient> currentIngridients = new ArrayList<>();
+	private List<Ingredient> currentIngredients = new ArrayList<>();
 	String myDishName;
 	public Dish(String dishName) {
 		myDishName = dishName;
@@ -40,12 +40,12 @@ public class Dish {
 		ingredients.add(ingredientName);
 	}
 
-	public List<Ingredient> getCurrentIngridients() {
-		return currentIngridients;
+	public List<Ingredient> getCurrentIngredients() {
+		return currentIngredients;
 	}
 
-	public void addIngridientClass(Ingredient myIn){
-		currentIngridients.add(myIn);
+	public void addIngredientClass(Ingredient myIn){
+		currentIngredients.add(myIn);
 	}
 
 
