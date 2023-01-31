@@ -253,7 +253,7 @@ public class Level implements Screen {
     }
 
     public Chef getChef(){
-        return chefList.get(currentChef%2);
+        return chefList.get(currentChef%chefList.size());
     }
 
     @Override
