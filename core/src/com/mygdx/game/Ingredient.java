@@ -11,7 +11,7 @@ public class Ingredient extends Sprite {
     public Float y;
     // TODO: add plate & dish types
 
-    public enum Type { RAW_BURGER, COOKED_BURGER, RAW_TOMATO, CHOPPED_TOMATO, BUN, CHOPPED_BUN, PLATE }
+    public enum Type { RAW_BURGER, COOKED_BURGER, RAW_TOMATO, CHOPPED_TOMATO, BUN, CHOPPED_BUN, PLATE, RAW_LETTUCE, CHOPPED_LETTUCE }
     Texture rawBurgerTexture;
     Texture cookedBurgerTexture;
     Texture rawTomatoTexture;
@@ -20,6 +20,8 @@ public class Ingredient extends Sprite {
     Texture choppedBunTexture;
     Texture currentTexture;
     Texture plateTexture;
+    Texture rawLettuceTexture;
+    Texture choppedLettuceTexture;
 
     public Ingredient(Type myType){
         type = myType;
@@ -51,7 +53,7 @@ public class Ingredient extends Sprite {
 
         Pixmap pixmap5 = new Pixmap( 16, 16, Pixmap.Format.RGBA8888 );
         pixmap5.setColor(55, 43, 100, 0.75f);
-        pixmap4.fillCircle( 8, 8, 4 );
+        pixmap5.fillCircle( 8, 8, 4 );
 
         choppedBunTexture = new Texture(pixmap5);
 
@@ -59,6 +61,16 @@ public class Ingredient extends Sprite {
         pixmap6.setColor(60, 60, 60, 0.75f);
         pixmap6.fillCircle( 8, 8, 4 );
         plateTexture = new Texture(pixmap6);
+
+        Pixmap pixmap7 = new Pixmap( 16, 16, Pixmap.Format.RGBA8888 );
+        pixmap7.setColor(0, 1, 0, 0.75f);
+        pixmap7.fillCircle( 8, 8, 16 );
+        rawLettuceTexture = new Texture(pixmap7);
+
+        Pixmap pixmap8 = new Pixmap( 16, 16, Pixmap.Format.RGBA8888 );
+        pixmap8.setColor(0, 1, 0, 0.75f);
+        pixmap8.fillCircle( 8, 8, 4 );
+        choppedLettuceTexture = new Texture(pixmap8);
 
         //type = Type.RAW_TOMATO;
     }
@@ -84,9 +96,16 @@ public class Ingredient extends Sprite {
                 break;
             case CHOPPED_BUN:
                 currentTexture = choppedBunTexture;
+                break;
             case PLATE:
                 currentTexture = plateTexture;
-            // TODO: add PLATE case
+                break;
+                // TODO: add PLATE case
+            case RAW_LETTUCE:
+                currentTexture = rawTomatoTexture;
+                break;
+            case CHOPPED_LETTUCE:
+                currentTexture = choppedTomatoTexture;
         }
         if (x == null || y == null) {
             batch.draw(currentTexture, 10, 10);

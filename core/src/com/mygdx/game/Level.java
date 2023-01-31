@@ -60,7 +60,7 @@ public class Level implements Screen {
 
     boolean fryingOnOven = false;
     boolean isFryingOnOvenInitialize = false;
-    Ingredient fryingOnOvenIngridient;
+    Ingredient fryingOnOvenIngredient;
 
     long burgerCookingTime;
 
@@ -177,15 +177,15 @@ public class Level implements Screen {
                 if (TimeUtils.timeSinceMillis(burgerCookingTime) > 8000){
                     System.out.println("Burger cooked");
                     fryingOnOven = false;
-                    fryingOnOvenIngridient.setType(Ingredient.Type.COOKED_BURGER);
+                    fryingOnOvenIngredient.setType(Ingredient.Type.COOKED_BURGER);
 
                 }
             }
         }
-        if (fryingOnOvenIngridient != null) {
-            fryingOnOvenIngridient.x = 90f;
-            fryingOnOvenIngridient.y = 110f;
-            fryingOnOvenIngridient.draw(batch);
+        if (fryingOnOvenIngredient != null) {
+            fryingOnOvenIngredient.x = 90f;
+            fryingOnOvenIngredient.y = 110f;
+            fryingOnOvenIngredient.draw(batch);
         }
         for (int i = 0 ; i < dishingUpStack.getCurrentIngredients().size(); i ++){
             dishingUpStack.getCurrentIngredients().get(i).x = 123f;

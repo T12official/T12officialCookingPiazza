@@ -8,12 +8,18 @@ public class Dish {
 	private List<String> ingredients = new ArrayList<String>();
 	private List<Ingredient> currentIngredients = new ArrayList<>();
 	String myDishName;
+
+	/*
+	programmers note:
+	I realise we never even use this class based on the way we have written our code in the other classes
+	 */
 	public Dish(String dishName) {
 		myDishName = dishName;
 		// Burger and Salad are pre-made dishes for the customers to order
 		if (dishName == "Burger") {
 			this.addIngredients("cooked burger");
 			this.addIngredients("chopped tomato");
+			this.addIngredients("chopped lettuce");
 			this.addIngredients("chopped bun");
 			this.addIngredients("plate");
 		}
@@ -22,6 +28,11 @@ public class Dish {
 			this.addIngredients("chopped tomato");
 			this.addIngredients("chopped lettuce");
 			this.addIngredients("plate");
+		}
+
+		else if (dishName == "DAVE") {
+			// do nothing here - yet
+			//this means that the dish is in the possession of Chef Dave
 		}
 
 		// Ingredients being put together in a dish will have to be put together automatically

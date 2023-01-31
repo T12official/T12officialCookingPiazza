@@ -27,6 +27,10 @@ public class Station extends Sprite implements InputProcessor {
     private Sprite tomatoStation;
     private Sprite bunStation;
 
+    //possibly remove tenderStation
+    //add lettuceStation - from the commented out code
+    private Sprite lettuceStation;
+
     public Sprite[] getSprites(){
         Sprite[] a = {tenderStation, cutStation, cookStation, plateStation, deliveryStation};
         return a;
@@ -51,6 +55,11 @@ public class Station extends Sprite implements InputProcessor {
         dictionary.put("tomatoStation", x_y7 );
         List<Double> x_y8 = Arrays.asList(60.0,205.0);
         dictionary.put("bunStation", x_y8 );
+
+        //Added lettuce station
+        List<Double> x_y9 = Arrays.asList(90.0,205.0);
+        dictionary.put("lettuceStation", x_y9 );
+
         return dictionary;
     }
 
@@ -80,6 +89,10 @@ public class Station extends Sprite implements InputProcessor {
         Texture texture8 = new Texture(Gdx.files.internal("Tiles/tabletop.png"));
         bunStation = new Sprite(texture8, 0,0,12,24);
 
+        //will need to replace all tabletop.png's with an image of each ingredient each station is storing
+        Texture texture9 = new Texture(Gdx.files.internal("Tiles/tabletop.png"));
+        lettuceStation = new Sprite(texture9, 0,0,12,24);
+
         Sprite[] mySprites = {tenderStation, cutStation, cookStation, plateStation, deliveryStation};
     }
 
@@ -103,6 +116,8 @@ public class Station extends Sprite implements InputProcessor {
         batch.draw(burgerStation, 180,110,30,45);
         batch.draw(tomatoStation, 30,205, 30,45);
         batch.draw(bunStation, 60,205,30,45);
+
+        batch.draw(lettuceStation, 90, 205, 30, 45);
     }
 
     @Override
