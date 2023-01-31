@@ -130,28 +130,32 @@ public class Chef extends Sprite implements InputProcessor {
 
     private boolean collidesLeft() {
         for (float step = 0; step < getHeight(); step += collisionLayer.getTileHeight() / 2)
-            if (isCellBlocked(getX(), getY() + step))
+            if (isCellBlocked(getX(), getY()))
                 return true;
         return false;
     }
     private boolean collidesRight() {
         for(float step = 0; step < getHeight(); step += collisionLayer.getTileHeight() / 2)
-            if (isCellBlocked(getX() + getWidth(), getY() + step))
+            if (isCellBlocked(getX() + getWidth(), getY()))
                 return true;
         return false;
     }
 
     private boolean collidesTop() {
-        for(float step = 0; step < getWidth(); step += collisionLayer.getTileWidth() / 2)
-            if (isCellBlocked(getX() + step, getY() + getHeight()/2))
+        for(float step = 0; step < getWidth(); step += collisionLayer.getTileWidth() / 2) {
+            if (isCellBlocked(getX() - step, getY() + getHeight()/2)) {
                 return true;
+            }
+        }
         return false;
     }
 
     private boolean collidesBottom() {
-        for(float step = 0; step < getWidth(); step += collisionLayer.getTileWidth() / 2)
-            if (isCellBlocked(getX() + step, getY() + getHeight()/2))
+        for(float step = 0; step < getWidth(); step += collisionLayer.getTileWidth() / 2) {
+            if (isCellBlocked(getX() + step, getY() + getHeight()/2)) {
                 return true;
+            }
+        }
         return false;
     }
 
