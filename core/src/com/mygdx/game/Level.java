@@ -59,6 +59,7 @@ public class Level implements Screen {
     Overlay myOverlay;
 
     boolean fryingOnOven = false;
+    boolean cookedBurgerOnOven = false;
     boolean isFryingOnOvenInitialize = false;
     Ingredient fryingOnOvenIngredient;
 
@@ -177,6 +178,7 @@ public class Level implements Screen {
                 if (TimeUtils.timeSinceMillis(burgerCookingTime) > 8000){
                     System.out.println("Burger cooked");
                     fryingOnOven = false;
+                    cookedBurgerOnOven = true;
                     fryingOnOvenIngredient.setType(Ingredient.Type.COOKED_BURGER);
 
                 }
@@ -315,6 +317,7 @@ public class Level implements Screen {
     public void dispose() {
         tiledMap.dispose();
         batch.dispose();
+
     }
 
     public TiledMapTileLayer getMapTileLayer(int i) {
