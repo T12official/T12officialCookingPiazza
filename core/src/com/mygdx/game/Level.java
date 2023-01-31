@@ -39,7 +39,7 @@ public class Level implements Screen {
     float stateTime;
     SpriteBatch batch;
     private Chef chef1;
-    public int currentChef = 1;
+    public int currentChef = 0;
     private Station station;
 
     final static int MAP_HEIGHT = 10;
@@ -72,7 +72,7 @@ public class Level implements Screen {
 
     @Override
     public void render(float delta) {
-        if (getChef().switchMe) {
+        if (!getChef().active) {
             switchChef();
         }
         Table table = new Table();
@@ -220,6 +220,7 @@ public class Level implements Screen {
         tiledMap = new TmxMapLoader().load("gameMaps/level2.tmx");
         chefList.add(new Chef(this, "a"));
         chefList.add(new Chef(this, "b"));
+        getChef().active = true;
         station = new Station(this);
         dishingUpStack  = new Dish("new dish", getChef());
         trackWithChef = new Dish("new dish", getChef());
@@ -238,10 +239,10 @@ public class Level implements Screen {
     }
 
     public void switchChef(){
-        getChef().switchMe = false;
         currentChef += 1;
         InputProcessor[] cars = {getChef(), station};
         inputMultiplexer.setProcessors(cars);
+        getChef().active = true;
     }
 
     public Chef getChef(){

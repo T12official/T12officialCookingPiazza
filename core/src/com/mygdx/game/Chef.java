@@ -36,7 +36,7 @@ public class Chef extends Sprite implements InputProcessor {
 
     Level level;
     Level myLev;
-    public boolean switchMe = false;
+    public boolean active = false;
     private TextureRegion[][] allTiles;
     private static final int BASE_WIDTH = 12;
     private static final int BASE_HEIGHT = 18;
@@ -208,7 +208,7 @@ public class Chef extends Sprite implements InputProcessor {
                 velocity.x += walkingSpeed;
                 break;
             case Input.Keys.Q:
-                switchMe = true;
+                active = false;
                 break;
             case Input.Keys.E:
 
