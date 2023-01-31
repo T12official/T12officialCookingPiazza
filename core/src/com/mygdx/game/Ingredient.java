@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 
 public class Ingredient extends Sprite {
     private Type type;
+    public Chef myChef;
     public Float  x;
     public Float y;
     // TODO: add plate & dish types
@@ -26,8 +27,9 @@ public class Ingredient extends Sprite {
 
     Texture rawBurgerTexture0;
 
-    public Ingredient(Type myType){
+    public Ingredient(Type myType, Chef chef){
         type = myType;
+        myChef = chef;
 
         rawBurgerTexture = new Texture(Gdx.files.internal("ingredients/raw_burger.png"));
 

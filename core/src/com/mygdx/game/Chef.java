@@ -32,7 +32,7 @@ public class Chef extends Sprite implements InputProcessor {
     private float walkingSpeed;
     private float runningSpeed;
 
-    private Dish HoldingDish = new Dish("new Dish");
+    private Dish HoldingDish = new Dish("new Dish", this);
 
     Level level;
     Level myLev;
@@ -329,8 +329,8 @@ public class Chef extends Sprite implements InputProcessor {
                     for (int i = 0; i < myLev.dishingUpStack.getCurrentIngredients().size() ; i ++){
                         HoldingDish.addIngredientClass(myLev.dishingUpStack.getCurrentIngredients().get(i));
                     }
-                    myLev.dishingUpStack = new Dish("asd");
-                    Ingredient newPlate = new Ingredient(Ingredient.Type.PLATE);
+                    myLev.dishingUpStack = new Dish("asd", this);
+                    Ingredient newPlate = new Ingredient(Ingredient.Type.PLATE, this);
                     newPlate.x = getX();
                     newPlate.y = getY();
                     // newPlate.setCenterY(getY());
@@ -363,7 +363,7 @@ public class Chef extends Sprite implements InputProcessor {
                 }
                 if (hasChoppedBun && hasChoppedTomatoes && hasCookedBurger && hasChoppedLettuce && HoldingDish.getCurrentIngredients().size() == 4){
                     System.out.println("This is a burger!!!!!!");
-                    HoldingDish = new Dish("purge");
+                    HoldingDish = new Dish("purge", this);
                     myLev.trackWithChef = HoldingDish;
                     if (myLev.orderArray.size() > 0){
                         myLev.orderArray.remove(0);
@@ -383,7 +383,7 @@ public class Chef extends Sprite implements InputProcessor {
                     }
                     if (hasChoppedTomatoes && hasChoppedLettuce && HoldingDish.getCurrentIngredients().size() == 2) {
                         System.out.println("This is a salad!!!!!!");
-                        HoldingDish = new Dish("purge");
+                        HoldingDish = new Dish("purge", this);
                         myLev.trackWithChef = HoldingDish;
                         if (myLev.orderArray.size() > 0){
                             myLev.orderArray.remove(0);
@@ -394,7 +394,7 @@ public class Chef extends Sprite implements InputProcessor {
                 break;
             case "burgerStation":
                 System.out.println("burger patty");
-                Ingredient newBurger = new Ingredient(Ingredient.Type.RAW_BURGER);
+                Ingredient newBurger = new Ingredient(Ingredient.Type.RAW_BURGER, this);
                 newBurger.x = getX();
                 newBurger.y = getY();
                 // newPlate.setCenterY(getY());
@@ -405,7 +405,7 @@ public class Chef extends Sprite implements InputProcessor {
                 break;
             case "tomatoStation":
                 System.out.println("raw tomato");
-                Ingredient newTomato = new Ingredient(Ingredient.Type.RAW_TOMATO);
+                Ingredient newTomato = new Ingredient(Ingredient.Type.RAW_TOMATO, this);
                 newTomato.x  =getX();
                 newTomato.y = getY();
                 HoldingDish.addIngredientClass(newTomato);
@@ -414,7 +414,7 @@ public class Chef extends Sprite implements InputProcessor {
                 break;
             case "bunStation":
                 System.out.println("buns");
-                Ingredient newBuns = new Ingredient(Ingredient.Type.BUN);
+                Ingredient newBuns = new Ingredient(Ingredient.Type.BUN, this);
                 newBuns.x = getX();
                 newBuns.y = getY();
                 HoldingDish.addIngredientClass(newBuns);
@@ -424,7 +424,7 @@ public class Chef extends Sprite implements InputProcessor {
 
             case "lettuceStation":
                 System.out.println("lettuce");
-                Ingredient newLettuce = new Ingredient(Ingredient.Type.RAW_LETTUCE);
+                Ingredient newLettuce = new Ingredient(Ingredient.Type.RAW_LETTUCE, this);
                 newLettuce.x = getX();
                 newLettuce.y = getY();
                 HoldingDish.addIngredientClass(newLettuce);

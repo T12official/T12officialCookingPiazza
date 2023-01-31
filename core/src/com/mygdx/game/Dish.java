@@ -8,13 +8,15 @@ public class Dish {
 	private List<String> ingredients = new ArrayList<String>();
 	private List<Ingredient> currentIngredients = new ArrayList<>();
 	String myDishName;
+	Chef myChef;
 
 	/*
 	programmers note:
 	I realise we never even use this class based on the way we have written our code in the other classes
 	 */
-	public Dish(String dishName) {
+	public Dish(String dishName, Chef chef) {
 		myDishName = dishName;
+		myChef = chef;
 		// Burger and Salad are pre-made dishes for the customers to order
 		if (dishName == "Burger") {
 			this.addIngredients("cooked burger");

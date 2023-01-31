@@ -52,7 +52,7 @@ public class Level implements Screen {
     boolean initialize = false;
     boolean primary = true;
     Ingredient extraIngri;
-    public Dish trackWithChef = new Dish("DAVE");
+    public Dish trackWithChef;
 
     List<String> orderArray = new ArrayList<>();
     Overlay myOverlay;
@@ -65,7 +65,7 @@ public class Level implements Screen {
     long burgerCookingTime;
 
 
-    Dish dishingUpStack = new Dish("new dish");
+    Dish dishingUpStack;
 
 
 
@@ -75,7 +75,6 @@ public class Level implements Screen {
         if (getChef().switchMe) {
             switchChef();
         }
-        System.out.println("current chef: " + currentChef%2 + getChef().switchMe);
         Table table = new Table();
         table.setFillParent(false);
         table.setPosition(100,50);
@@ -87,7 +86,7 @@ public class Level implements Screen {
 
         tiledMapRenderer.setView(camera);
         batch = new SpriteBatch();
-        Ingredient ingredient = new Ingredient(Ingredient.Type.RAW_TOMATO );
+        Ingredient ingredient = new Ingredient(Ingredient.Type.RAW_TOMATO, getChef() );
 
         tiledMapRenderer.render();
         camera.position.set(getChef().getX() + getChef().getWidth() / 2, getChef().getY() + getChef().getHeight() / 2, 0);
@@ -108,17 +107,9 @@ public class Level implements Screen {
             initialize = false;
 
             if (primary){
-                Customer tempCustomer = new Customer(new Dish("Burger"));
-                Customer tempCustomer2 = new Customer(new Dish("Burger"));
-                Customer tempCustomer5 = new Customer(new Dish("Burger"));
-                Customer tempCustomer3 = new Customer(new Dish("Burger"));
-                Customer tempCustomer4 = new Customer(new Dish("Burger"));
-
-                customerList.add(tempCustomer);
-                customerList.add(tempCustomer2);
-                customerList.add(tempCustomer3);
-                customerList.add(tempCustomer4);
-                customerList.add(tempCustomer5);
+                for (int i = 0; i < 5; i++) {
+                    customerList.add(new Customer(new Dish("Burger", getChef())));
+                }
                 primary = false;
             }
         }
@@ -169,8 +160,8 @@ public class Level implements Screen {
         Ingredient temp;
         for (int i = 0; i < setPositions.size() ; i ++){
             temp = setPositions.get(i);
-            temp.x = getChef().getX();
-            temp.y = getChef().getY();
+            temp.x = temp.myChef.getX();
+            temp.y = temp.myChef.getY();
             temp.draw(batch);
         }
 
@@ -230,7 +221,8 @@ public class Level implements Screen {
         chefList.add(new Chef(this, "a"));
         chefList.add(new Chef(this, "b"));
         station = new Station(this);
-
+        dishingUpStack  = new Dish("new dish", getChef());
+        trackWithChef = new Dish("new dish", getChef());
         //inputMultiplexer.addProcessor(station);
         InputProcessor[] cars = {getChef(), station};
         inputMultiplexer.setProcessors(cars);
