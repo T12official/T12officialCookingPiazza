@@ -28,59 +28,8 @@ public class Ingredient extends Sprite {
 
     public Ingredient(Type myType){
         type = myType;
-        // TODO: create function and optimize
 
-        // the code below has been replaced (by the code below it) so that we get the actual sprites implemented
-        /*
-        Pixmap pixmap = new Pixmap( 16, 16, Pixmap.Format.RGBA8888 );
-        pixmap.setColor( 1, 0, 0, 0.75f );
-        pixmap.fillCircle( 8, 8, 16 );
-        rawBurgerTexture = new Texture( pixmap );
-
-        Pixmap pixmap1 = new Pixmap( 16, 16, Pixmap.Format.RGBA8888 );
-        pixmap1.setColor( 1, 1, 1, 0.7f );
-        pixmap1.fillCircle( 8, 8, 16 );
-        cookedBurgerTexture = new Texture(pixmap1);
-
-        Pixmap pixmap2 = new Pixmap( 16, 16, Pixmap.Format.RGBA8888 );
-        pixmap2.setColor( 1, 0, 0, 0.75f );
-        pixmap2.fillCircle( 8, 8, 16 );
-        rawTomatoTexture = new Texture(pixmap2);
-
-        Pixmap pixmap3= new Pixmap( 16, 16, Pixmap.Format.RGBA8888 );
-        pixmap3.setColor( 1, 0, 0, 0.75f );
-        pixmap3.fillCircle( 8, 8, 4 );
-        choppedTomatoTexture = new Texture(pixmap3);
-
-        Pixmap pixmap4 = new Pixmap( 16, 16, Pixmap.Format.RGBA8888 );
-        pixmap4.setColor(1, 1, 100, 0.75f);
-        pixmap4.fillCircle( 8, 8, 4 );
-        bunTexture = new Texture(pixmap4);
-
-        Pixmap pixmap5 = new Pixmap( 16, 16, Pixmap.Format.RGBA8888 );
-        pixmap5.setColor(55, 43, 100, 0.75f);
-        pixmap5.fillCircle( 8, 8, 4 );
-
-        choppedBunTexture = new Texture(pixmap5);
-
-        Pixmap pixmap6 = new Pixmap( 16, 16, Pixmap.Format.RGBA8888 );
-        pixmap6.setColor(60, 60, 60, 0.75f);
-        pixmap6.fillCircle( 8, 8, 4 );
-        plateTexture = new Texture(pixmap6);
-
-        Pixmap pixmap7 = new Pixmap( 16, 16, Pixmap.Format.RGBA8888 );
-        pixmap7.setColor(0, 1, 0, 0.75f);
-        pixmap7.fillCircle( 8, 8, 16 );
-        rawLettuceTexture = new Texture(pixmap7);
-
-        Pixmap pixmap8 = new Pixmap( 16, 16, Pixmap.Format.RGBA8888 );
-        pixmap8.setColor(0, 1, 0, 0.75f);
-        pixmap8.fillCircle( 8, 8, 4 );
-        choppedLettuceTexture = new Texture(pixmap8);
-        */
-
-        Texture texture0 = new Texture(Gdx.files.internal("ingredients/raw_burger.png"));
-        rawBurgerTexture = texture0;
+        rawBurgerTexture = new Texture(Gdx.files.internal("ingredients/raw_burger.png"));
 
         cookedBurgerTexture = new Texture(Gdx.files.internal("ingredients/cooked_burger.png"));
         bunTexture = new Texture(Gdx.files.internal("ingredients/uncut_bun.png"));
