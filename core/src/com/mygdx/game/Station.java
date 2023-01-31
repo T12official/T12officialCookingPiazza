@@ -30,6 +30,7 @@ public class Station extends Sprite implements InputProcessor {
     //possibly remove tenderStation
     //add lettuceStation - from the commented out code
     private Sprite lettuceStation;
+    private Sprite bin;
 
     public Sprite[] getSprites(){
         Sprite[] a = {tenderStation, cutStation, cookStation, plateStation, deliveryStation};
@@ -59,6 +60,9 @@ public class Station extends Sprite implements InputProcessor {
         //Added lettuce station
         List<Double> x_y9 = Arrays.asList(90.0,205.0);
         dictionary.put("lettuceStation", x_y9 );
+
+        List<Double> x_y10 = Arrays.asList(120.0,205.0);
+        dictionary.put("binStation", x_y10);
 
         return dictionary;
     }
@@ -93,6 +97,9 @@ public class Station extends Sprite implements InputProcessor {
         Texture texture9 = new Texture(Gdx.files.internal("Tiles/tabletop.png"));
         lettuceStation = new Sprite(texture9, 0,0,12,24);
 
+        Texture texture10 = new Texture(Gdx.files.internal("Tiles/bin_no_lid.png"));
+        bin = new Sprite(texture10, 0, 0, 30,30);
+
         Sprite[] mySprites = {tenderStation, cutStation, cookStation, plateStation, deliveryStation};
     }
 
@@ -118,6 +125,27 @@ public class Station extends Sprite implements InputProcessor {
         batch.draw(bunStation, 60,205,30,45);
 
         batch.draw(lettuceStation, 90, 205, 30, 45);
+        batch.draw(bin, 120,205,30,45);
+
+        //Sprites that show ehere you can pick up each item.
+
+        Texture bunTexture = new Texture(Gdx.files.internal("ingredients/cut_bun_top.png"));
+        Sprite bunSprite = new Sprite(bunTexture, 0, 0, 30,30);
+        batch.draw(bunSprite, 65,215,30,30);
+
+        Texture tomato = new Texture(Gdx.files.internal("ingredients/tomato_whole.png"));
+        Sprite tomSpr = new Sprite(tomato, 0 ,0,30,30);
+        batch.draw(tomSpr, 34,218,30,30);
+
+        Texture lett = new Texture(Gdx.files.internal("ingredients/whole_lettuce.png"));
+        Sprite lettS = new Sprite(lett, 0,0,30,30);
+        batch.draw(lettS, 95, 219,30,30);
+
+
+        Texture meat = new Texture(Gdx.files.internal("ingredients/untenderized_raw_burger.png"));
+        Sprite meatS = new Sprite(meat, 0 , 0, 30,30);
+        batch.draw(meatS, 180,125, 30,30);
+
     }
 
     @Override

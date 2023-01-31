@@ -230,7 +230,7 @@ public class Chef extends Sprite implements InputProcessor {
                         shorttest = temp;
                     }
                 }
-                if (minDist < 30) {
+                if (minDist < 38) {
                     System.out.println("you are interacting with:" + shorttest);
                     performInteract(shorttest);
                 }
@@ -255,6 +255,9 @@ public class Chef extends Sprite implements InputProcessor {
 
                 // this stops game from crashing if chef has no items in hand
                 if (HoldingDish.getCurrentIngredients().size() == 0) { break; }
+                if (HoldingDish.getCurrentIngredients().get(0).getType() == Ingredient.Type.UNTEN_BURGER){
+                    HoldingDish.getCurrentIngredients().get(0).setType(Ingredient.Type.RAW_BURGER);
+                }
 
                 break;
             case "cutStation":
@@ -361,14 +364,20 @@ public class Chef extends Sprite implements InputProcessor {
                     if (HoldingDish.getCurrentIngredients().get(i).getType() == Ingredient.Type.CHOPPED_TOMATO){hasChoppedTomatoes = true;}
                     if (HoldingDish.getCurrentIngredients().get(i).getType() == Ingredient.Type.CHOPPED_LETTUCE){hasChoppedLettuce = true;}
                 }
-                if (hasChoppedBun && hasChoppedTomatoes && hasCookedBurger && hasChoppedLettuce && HoldingDish.getCurrentIngredients().size() == 4){
+                if (hasChoppedBun && hasChoppedTomatoes && hasCookedBurger && hasChoppedLettuce ){
                     System.out.println("This is a burger!!!!!!");
                     HoldingDish = new Dish("purge", this);
                     myLev.trackWithChef = HoldingDish;
-                    if (myLev.orderArray.size() > 0){
-                        myLev.orderArray.remove(0);
-                    }
+
+                        for (int i = 0; i < myLev.orderArray.size();i ++){
+                            if (myLev.orderArray.get(i) == "Burger"){
+                                myLev.orderArray.remove(i);
+                                break;
+                            }
+                        }
+
                 }
+
                 else {
                     boolean isSalad = false;
                     hasChoppedTomatoes = false;
@@ -381,12 +390,15 @@ public class Chef extends Sprite implements InputProcessor {
                             hasChoppedLettuce = true;
                         }
                     }
-                    if (hasChoppedTomatoes && hasChoppedLettuce && HoldingDish.getCurrentIngredients().size() == 2) {
+                    if (hasChoppedTomatoes && hasChoppedLettuce) {
                         System.out.println("This is a salad!!!!!!");
                         HoldingDish = new Dish("purge", this);
                         myLev.trackWithChef = HoldingDish;
-                        if (myLev.orderArray.size() > 0){
-                            myLev.orderArray.remove(0);
+                        for (int i = 0; i < myLev.orderArray.size();i ++){
+                            if (myLev.orderArray.get(i) == "Salad"){
+                                myLev.orderArray.remove(i);
+                                break;
+                            }
                         }
                     }
                 }
@@ -394,7 +406,7 @@ public class Chef extends Sprite implements InputProcessor {
                 break;
             case "burgerStation":
                 System.out.println("burger patty");
-                Ingredient newBurger = new Ingredient(Ingredient.Type.RAW_BURGER, this);
+                Ingredient newBurger = new Ingredient(Ingredient.Type.UNTEN_BURGER, this);
                 newBurger.x = getX();
                 newBurger.y = getY();
                 // newPlate.setCenterY(getY());
@@ -431,6 +443,16 @@ public class Chef extends Sprite implements InputProcessor {
                 myLev.trackWithChef = HoldingDish;
 
                 break;
+
+            case "binStation":
+                if (HoldingDish.getCurrentIngredients().size() > 0 ){
+                    for (int i = 0 ; i < HoldingDish.getCurrentIngredients().size(); i ++){
+                        HoldingDish.getCurrentIngredients().remove(i);
+                    }
+                    myLev.trackWithChef = HoldingDish;
+                }
+
+                System.out.println("you are at the bin station");
 
             default: return;
 

@@ -13,7 +13,7 @@ public class Ingredient extends Sprite {
     public Float y;
     // TODO: add plate & dish types
 
-    public enum Type { RAW_BURGER, COOKED_BURGER, RAW_TOMATO, CHOPPED_TOMATO, BUN, CHOPPED_BUN, PLATE, RAW_LETTUCE, CHOPPED_LETTUCE }
+    public enum Type { RAW_BURGER, COOKED_BURGER, RAW_TOMATO, CHOPPED_TOMATO, BUN, CHOPPED_BUN, PLATE, RAW_LETTUCE, CHOPPED_LETTUCE, UNTEN_BURGER }
     Texture rawBurgerTexture;
     Texture cookedBurgerTexture;
     Texture rawTomatoTexture;
@@ -24,7 +24,7 @@ public class Ingredient extends Sprite {
     Texture plateTexture;
     Texture rawLettuceTexture;
     Texture choppedLettuceTexture;
-
+    Texture untenderBurger;
     Texture rawBurgerTexture0;
 
     public Ingredient(Type myType, Chef chef){
@@ -42,6 +42,7 @@ public class Ingredient extends Sprite {
         rawTomatoTexture = new Texture(Gdx.files.internal("ingredients/tomato_whole.png"));
         choppedTomatoTexture = new Texture(Gdx.files.internal("ingredients/tomato_chopped.png"));
         plateTexture = new Texture(Gdx.files.internal("ingredients/plate_empty.png"));
+        untenderBurger = new Texture(Gdx.files.internal("ingredients/untenderized_raw_burger.png"));
 
         //type = Type.RAW_TOMATO;
     }
@@ -77,6 +78,9 @@ public class Ingredient extends Sprite {
                 break;
             case CHOPPED_LETTUCE:
                 currentTexture = choppedLettuceTexture;
+                break;
+            case UNTEN_BURGER:
+                currentTexture = untenderBurger;
         }
         if (x == null || y == null) {
             batch.draw(currentTexture, 10, 10);

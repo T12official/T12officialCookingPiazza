@@ -108,7 +108,12 @@ public class Level implements Screen {
 
             if (primary){
                 for (int i = 0; i < 5; i++) {
-                    customerList.add(new Customer(new Dish("Burger", getChef())));
+                    if (i % 2 == 0) {
+                        customerList.add(new Customer(new Dish("Burger", getChef())));
+                    }
+                    else {
+                        customerList.add(new Customer(new Dish("Salad", getChef())));
+                    }
                 }
                 primary = false;
             }
