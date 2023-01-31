@@ -243,8 +243,34 @@ public class Chef extends Sprite implements InputProcessor {
     private void performInteract(String station){
         switch (station){
             case "tenderStation":
+
+                // this stops game from crashing if chef has no items in hand
+                if (HoldingDish.getCurrentIngredients().size() == 0) { break; }
+
                 break;
             case "cutStation":
+
+                /*
+                if (HoldingDish.getCurrentIngredients().size() == 0){
+                    if (myLev.onChoppingBoardIngredient.getType() == Ingredient.Type.ChoppedTomato) {
+                        System.out.println("grabbing chopped tomato");
+                        HoldingDish.addIngredientClass(myLev.fryingOnOvenIngredient);
+                        myLev.fryingOnOvenIngredient = null;
+                        myLev.trackWithChef = HoldingDish;
+                    }
+                    if (myLev.onChoppingBoardIngredient.getType() == Ingredient.Type.ChoppedLettuce) {
+                        System.out.println("grabbing chopped lettuce");
+                        HoldingDish.addIngredientClass(myLev.fryingOnOvenIngredient);
+                        myLev.fryingOnOvenIngredient = null;
+                        myLev.trackWithChef = HoldingDish;
+                    }
+                }
+
+                */
+
+                // this stops game from crashing if the chef has no items in their hand
+                if (HoldingDish.getCurrentIngredients().size() == 0) { break; }
+
                 if (HoldingDish.getCurrentIngredients().get(0).getType() == Ingredient.Type.RAW_TOMATO){
                     //TODO implement delay on the cutting
                     System.out.println("cutting tomato");
@@ -261,14 +287,22 @@ public class Chef extends Sprite implements InputProcessor {
 
                 break;
             case "cookStation":
+
                 if (HoldingDish.getCurrentIngredients().size() == 0){
-                    if (myLev.fryingOnOvenIngredient.getType() == Ingredient.Type.COOKED_BURGER){
-                        System.out.println("grabbing");
+                    if (myLev.cookedBurgerOnOven == false) { break; }
+
+                    else if (myLev.fryingOnOvenIngredient.getType() == Ingredient.Type.COOKED_BURGER){
+                        System.out.println("grabbing cooked burger");
                         HoldingDish.addIngredientClass(myLev.fryingOnOvenIngredient);
                         myLev.fryingOnOvenIngredient = null;
+                        myLev.cookedBurgerOnOven = false;
                         myLev.trackWithChef = HoldingDish;
                     }
                 }
+
+                // this stops game from crashing if the chef has no items in their hand
+                if (HoldingDish.getCurrentIngredients().size() == 0) { break; }
+
                 if (Ingredient.Type.RAW_BURGER == HoldingDish.getCurrentIngredients().get(0).getType() ){
                     myLev.isFryingOnOvenInitialize = true;
                     myLev.fryingOnOven = true;
