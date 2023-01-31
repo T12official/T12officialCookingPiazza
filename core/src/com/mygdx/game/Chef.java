@@ -291,7 +291,7 @@ public class Chef extends Sprite implements InputProcessor {
                 }
                 if (HoldingDish.getCurrentIngredients().get(0).getType() == Ingredient.Type.RAW_LETTUCE){
                     System.out.println("cutting lettuce");
-                    HoldingDish.getCurrentIngredients().get(0).setType(Ingredient.Type.CHOPPED_BUN);
+                    HoldingDish.getCurrentIngredients().get(0).setType(Ingredient.Type.CHOPPED_LETTUCE);
                 }
 
                 break;
