@@ -1,9 +1,6 @@
 package com.mygdx.game;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.InputMultiplexer;
-import com.badlogic.gdx.InputProcessor;
-import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.*;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -42,11 +39,13 @@ public class Level implements Screen {
     float stateTime;
     SpriteBatch batch;
     private Chef chef1;
+    public int currentChef = 1;
     private Station station;
 
     final static int MAP_HEIGHT = 10;
     final static int MAP_WIDTH = 7;
     private Stage stage;
+    private InputMultiplexer inputMultiplexer = new InputMultiplexer();
     private float GAME_HEIGHT = 100;
     private float GAME_WIDTH = 200;
     private Ingredient ingredient;
@@ -73,6 +72,10 @@ public class Level implements Screen {
 
     @Override
     public void render(float delta) {
+        if (getChef().switchMe) {
+            switchChef();
+        }
+        System.out.println("current chef: " + currentChef%2 + getChef().switchMe);
         Table table = new Table();
         table.setFillParent(false);
         table.setPosition(100,50);
@@ -84,11 +87,10 @@ public class Level implements Screen {
 
         tiledMapRenderer.setView(camera);
         batch = new SpriteBatch();
-        chefList = new ArrayList<>();
         Ingredient ingredient = new Ingredient(Ingredient.Type.RAW_TOMATO );
 
         tiledMapRenderer.render();
-        camera.position.set(chef1.getX() + chef1.getWidth() / 2, chef1.getY() + chef1.getHeight() / 2, 0);
+        camera.position.set(getChef().getX() + getChef().getWidth() / 2, getChef().getY() + getChef().getHeight() / 2, 0);
         Stage stage = new Stage(new FitViewport(32 * MAP_WIDTH, 32 * MAP_HEIGHT, camera));
         myOverlay = new Overlay();
         myOverlay.setUpTable(stage);
@@ -157,15 +159,18 @@ public class Level implements Screen {
 
         batch.begin();
         batch.setProjectionMatrix(camera.combined);
-        chef1.draw(batch, delta);
+        for (Chef chef : chefList) {
+            chef.draw(batch, delta);
+        }
+        // getChef().draw(batch, delta);
         ingredient.draw(batch);
         station.draw(batch);
         List<Ingredient> setPositions = trackWithChef.getCurrentIngredients();
         Ingredient temp;
         for (int i = 0; i < setPositions.size() ; i ++){
             temp = setPositions.get(i);
-            temp.x = chef1.getX();
-            temp.y = chef1.getY();
+            temp.x = getChef().getX();
+            temp.y = getChef().getY();
             temp.draw(batch);
         }
 
@@ -222,15 +227,15 @@ public class Level implements Screen {
     @Override
     public void show() {
         tiledMap = new TmxMapLoader().load("gameMaps/level2.tmx");
-        chef1 = new Chef(this);
+        chefList.add(new Chef(this, "a"));
+        chefList.add(new Chef(this, "b"));
         station = new Station(this);
 
-        InputMultiplexer inputMultiplexer = new InputMultiplexer();//Allows for inputs from other classes
         //inputMultiplexer.addProcessor(station);
-        InputProcessor[] cars = {chef1, station};
+        InputProcessor[] cars = {getChef(), station};
         inputMultiplexer.setProcessors(cars);
         inputMultiplexer.getProcessors();
-        //inputMultiplexer.setProcessors(chef1);//Add inputs from chef class
+//        inputMultiplexer.setProcessors(getChef());//Add inputs from chef class
         //Add inputs from station class
         Gdx.input.setInputProcessor(inputMultiplexer);
         tiledMapRenderer = new OrthogonalTiledMapRenderer(tiledMap);
@@ -238,6 +243,17 @@ public class Level implements Screen {
         float GAME_HEIGHT = 100;
         float GAME_WIDTH = 200;
         camera = new OrthographicCamera(GAME_HEIGHT * aspectRatio, GAME_WIDTH * aspectRatio);
+    }
+
+    public void switchChef(){
+        getChef().switchMe = false;
+        currentChef += 1;
+        InputProcessor[] cars = {getChef(), station};
+        inputMultiplexer.setProcessors(cars);
+    }
+
+    public Chef getChef(){
+        return chefList.get(currentChef%2);
     }
 
     @Override

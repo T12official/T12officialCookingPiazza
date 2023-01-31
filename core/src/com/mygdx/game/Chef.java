@@ -36,6 +36,7 @@ public class Chef extends Sprite implements InputProcessor {
 
     Level level;
     Level myLev;
+    public boolean switchMe = false;
     private TextureRegion[][] allTiles;
     private static final int BASE_WIDTH = 12;
     private static final int BASE_HEIGHT = 18;
@@ -57,14 +58,15 @@ public class Chef extends Sprite implements InputProcessor {
         batch.draw(currentFrame, flipChef ? getX() + RENDERED_WIDTH : getX(), getY(), flipChef ? -RENDERED_WIDTH : RENDERED_WIDTH, RENDERED_HEIGHT);
     }
 
-    public Chef(Level level){
+    public Chef(Level level, String chefNo){
         myLev = level;
+        String path = "chef/" + chefNo + "1_new.png";
         walkingSpeed = 120;
         currentState = State.STANDING;
         collisionLayer = level.getMapTileLayer(1);
         collideX=false;
         collideY=false;
-        Texture chefSheet = new Texture("chef/a1_new.png");
+        Texture chefSheet = new Texture(path);
 
         // Load all chef sprites in our new custom sprite sheet.
         // In this format, each sprite is a 12x18 region. It can be expanded to add more sprites.
@@ -205,7 +207,10 @@ public class Chef extends Sprite implements InputProcessor {
                 currentDirection = Direction.RIGHT;
                 velocity.x += walkingSpeed;
                 break;
-            case (Input.Keys.E ):
+            case Input.Keys.Q:
+                switchMe = true;
+                break;
+            case Input.Keys.E:
 
                 double minDist = 10000;
                 int minIndex = 0;
