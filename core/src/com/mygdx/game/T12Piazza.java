@@ -45,6 +45,9 @@ public class T12Piazza extends Game {
 
 	@Override
 	public void dispose () {
+
 		super.dispose();
+		myLevelManager.dispose();
+
 	}
 }

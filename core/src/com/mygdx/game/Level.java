@@ -317,6 +317,7 @@ public class Level implements Screen {
     public void dispose() {
         tiledMap.dispose();
         batch.dispose();
+
     }
 
     public TiledMapTileLayer getMapTileLayer(int i) {
