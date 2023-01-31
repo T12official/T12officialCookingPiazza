@@ -1,5 +1,6 @@
 package com.mygdx.game;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
@@ -23,9 +24,14 @@ public class Ingredient extends Sprite {
     Texture rawLettuceTexture;
     Texture choppedLettuceTexture;
 
+    Texture rawBurgerTexture0;
+
     public Ingredient(Type myType){
         type = myType;
         // TODO: create function and optimize
+
+        // the code below has been replaced (by the code below it) so that we get the actual sprites implemented
+        /*
         Pixmap pixmap = new Pixmap( 16, 16, Pixmap.Format.RGBA8888 );
         pixmap.setColor( 1, 0, 0, 0.75f );
         pixmap.fillCircle( 8, 8, 16 );
@@ -71,6 +77,20 @@ public class Ingredient extends Sprite {
         pixmap8.setColor(0, 1, 0, 0.75f);
         pixmap8.fillCircle( 8, 8, 4 );
         choppedLettuceTexture = new Texture(pixmap8);
+        */
+
+        Texture texture0 = new Texture(Gdx.files.internal("ingredients/raw_burger.png"));
+        rawBurgerTexture = texture0;
+
+        cookedBurgerTexture = new Texture(Gdx.files.internal("ingredients/cooked_burger.png"));
+        bunTexture = new Texture(Gdx.files.internal("ingredients/uncut_bun.png"));
+        choppedBunTexture = new Texture(Gdx.files.internal("ingredients/cut_bun_bottom.png"));
+        // currently only implementing the bottom half of a cut bun
+        rawLettuceTexture = new Texture(Gdx.files.internal("ingredients/whole_lettuce.png"));
+        choppedLettuceTexture = new Texture(Gdx.files.internal("ingredients/cut_lettuce.png"));
+        rawTomatoTexture = new Texture(Gdx.files.internal("ingredients/tomato_whole.png"));
+        choppedTomatoTexture = new Texture(Gdx.files.internal("ingredients/tomato_chopped.png"));
+        plateTexture = new Texture(Gdx.files.internal("ingredients/plate_empty.png"));
 
         //type = Type.RAW_TOMATO;
     }
@@ -102,10 +122,10 @@ public class Ingredient extends Sprite {
                 break;
                 // TODO: add PLATE case
             case RAW_LETTUCE:
-                currentTexture = rawTomatoTexture;
+                currentTexture = rawLettuceTexture;
                 break;
             case CHOPPED_LETTUCE:
-                currentTexture = choppedTomatoTexture;
+                currentTexture = choppedLettuceTexture;
         }
         if (x == null || y == null) {
             batch.draw(currentTexture, 10, 10);
