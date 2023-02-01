@@ -11,7 +11,6 @@ public class Ingredient extends Sprite {
     public Chef myChef;
     public Float  x;
     public Float y;
-    // TODO: add plate & dish types
 
     public enum Type { RAW_BURGER, COOKED_BURGER, RAW_TOMATO, CHOPPED_TOMATO, BUN, CHOPPED_BUN, PLATE, RAW_LETTUCE, CHOPPED_LETTUCE, UNTEN_BURGER }
     Texture rawBurgerTexture;
@@ -25,14 +24,12 @@ public class Ingredient extends Sprite {
     Texture rawLettuceTexture;
     Texture choppedLettuceTexture;
     Texture untenderBurger;
-    Texture rawBurgerTexture0;
 
     public Ingredient(Type myType, Chef chef){
         type = myType;
         myChef = chef;
 
         rawBurgerTexture = new Texture(Gdx.files.internal("ingredients/raw_burger.png"));
-
         cookedBurgerTexture = new Texture(Gdx.files.internal("ingredients/cooked_burger.png"));
         bunTexture = new Texture(Gdx.files.internal("ingredients/uncut_bun.png"));
         choppedBunTexture = new Texture(Gdx.files.internal("ingredients/cut_bun_bottom.png"));
@@ -43,13 +40,10 @@ public class Ingredient extends Sprite {
         choppedTomatoTexture = new Texture(Gdx.files.internal("ingredients/tomato_chopped.png"));
         plateTexture = new Texture(Gdx.files.internal("ingredients/plate_empty.png"));
         untenderBurger = new Texture(Gdx.files.internal("ingredients/untenderized_raw_burger.png"));
-
-        //type = Type.RAW_TOMATO;
     }
 
     @Override
     public void draw(Batch batch) {
-        //super.draw(batch);
         switch (type){
             case RAW_TOMATO:
                 currentTexture = rawTomatoTexture;
@@ -72,7 +66,6 @@ public class Ingredient extends Sprite {
             case PLATE:
                 currentTexture = plateTexture;
                 break;
-                // TODO: add PLATE case
             case RAW_LETTUCE:
                 currentTexture = rawLettuceTexture;
                 break;
@@ -84,11 +77,11 @@ public class Ingredient extends Sprite {
         }
         if (x == null || y == null) {
             batch.draw(currentTexture, 10, 10);
-        }else {
+        }
+        else {
             batch.draw(currentTexture,  x,  y);
         }
     }
-
     public Type getType() {
         return type;
     }

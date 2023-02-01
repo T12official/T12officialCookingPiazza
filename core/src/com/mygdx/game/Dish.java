@@ -5,8 +5,8 @@ import java.util.Arrays;
 import java.util.List;
 
 public class Dish {
-	private List<String> ingredients = new ArrayList<String>();
-	private List<Ingredient> currentIngredients = new ArrayList<>();
+	private final List<String> ingredients = new ArrayList<String>();
+	private final List<Ingredient> currentIngredients = new ArrayList<>();
 	String myDishName;
 	Chef myChef;
 

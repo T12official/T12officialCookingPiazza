@@ -18,19 +18,19 @@ public class Station extends Sprite implements InputProcessor {
     private boolean interacted = false;
 
     private SpriteBatch batch;
-    private Sprite tenderStation;  // Create new sprite
-    private Sprite cutStation;
-    private Sprite cookStation;
-    private Sprite plateStation;
-    private Sprite deliveryStation;
-    private Sprite burgerStation;
-    private Sprite tomatoStation;
-    private Sprite bunStation;
+    private final Sprite tenderStation;  // Create new sprite
+    private final Sprite cutStation;
+    private final Sprite cookStation;
+    private final Sprite plateStation;
+    private final Sprite deliveryStation;
+    private final Sprite burgerStation;
+    private final Sprite tomatoStation;
+    private final Sprite bunStation;
 
     //possibly remove tenderStation
     //add lettuceStation - from the commented out code
-    private Sprite lettuceStation;
-    private Sprite bin;
+    private final Sprite lettuceStation;
+    private final Sprite bin;
 
     public Sprite[] getSprites(){
         Sprite[] a = {tenderStation, cutStation, cookStation, plateStation, deliveryStation};
@@ -106,7 +106,7 @@ public class Station extends Sprite implements InputProcessor {
     @Override
     public boolean keyDown(int keycode) {
         if (keycode == Input.Keys.E ) {
-            System.out.println("sdusfdskhkfdukhweffweqkhuwefwefkhuwefkhuwefkhfweukhfwehukefw");
+            // System.out.println("sdusfdskhkfdukhweffweqkhuwefwefkhuwefkhuwefkhfweukhfwehukefw");
             interacted = true;
         }
         return true;

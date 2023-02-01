@@ -16,7 +16,6 @@ import com.badlogic.gdx.utils.SnapshotArray;
 import java.awt.*;
 
 public class Overlay {
-
     private Table table;
 
     public void setUpTable(Stage stage){
@@ -32,30 +31,10 @@ public class Overlay {
         TextButton.TextButtonStyle style = new TextButton.TextButtonStyle();
         style.up = new TextureRegionDrawable(upRegion);
         style.font = new BitmapFont(Gdx.files.internal("bitmapfont/Amble-Regular-26.fnt"));
-
-//        TextButton button1 = new TextButton("Button 1", style);
-//        bgPixmap.setColor(88);
-//        textureRegionDrawableBg.
-//        table.add(button1);
-//        table.background(textureRegionDrawableBg);
-    }
-
-    public void setPos(float x, float y){
-        table.setPosition(x,y);
     }
 
     public void setTableBackgroundColor(float r, float g, float b, float transparency){
-
-//        Texture  texture = new Texture(Gdx.files.internal("Tiles/kitchen_fridge.png"));
-//        TextureRegion upRegion = new TextureRegion(texture, r, g, b, transparency);
-//
-//        TextButton.TextButtonStyle style = new TextButton.TextButtonStyle();
-//        style.up = new TextureRegionDrawable(upRegion);
-//        style.font = new BitmapFont(Gdx.files.internal("bitmapfont/Amble-Regular-26.fnt"));;
-//
-//        TextButton button1 = new TextButton("Button 1", style);
         Pixmap bgPixmap = new Pixmap(1,1, Pixmap.Format.RGBA8888);
-//        bgPixmap.setColor(88);
         bgPixmap.setColor(r,g,b,transparency);
         bgPixmap.fill();
         TextureRegionDrawable textureRegionDrawableBg = new TextureRegionDrawable(new TextureRegion(new Texture(bgPixmap)));
@@ -71,8 +50,6 @@ public class Overlay {
         skin.getFont("default").getData().setScale(0.4f,0.4f);
         skin.setScale(0.1f);
         table.setSkin(skin);
-        Label textLabel = new Label(textToAdd);
-
         table.row();
         table.add(textToAdd);
     }
@@ -84,7 +61,6 @@ public class Overlay {
     public void removeRow(int row, int COLUMN_NUMBER){
         SnapshotArray<Actor> children = table.getChildren();
         children.ordered = false;
-
         for (int i = row*COLUMN_NUMBER; i < children.size - COLUMN_NUMBER; i++) {
             children.swap(i, i + COLUMN_NUMBER);
         }

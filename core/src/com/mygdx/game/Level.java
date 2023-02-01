@@ -22,36 +22,29 @@ import java.util.Map;
 import java.util.Random;
 
 public class Level implements Screen {
-
     ArrayList<Customer> customerList = new ArrayList<>();
     ArrayList<Chef> chefList = new ArrayList<>();
     long timer;
     long idleTime;
     List<List<String>> gridArray;
     String gameMode;
-    //TimeUtils.millis();
     long timeToNextCustomer;
     long getTimeToIdleGame;
 
     private TiledMap tiledMap;
     private TiledMapRenderer tiledMapRenderer;
     private OrthographicCamera camera;
-    float stateTime;
     SpriteBatch batch;
-    private Chef chef1;
     public int currentChef = 0;
     private Station station;
 
     final static int MAP_HEIGHT = 10;
     final static int MAP_WIDTH = 7;
     private Stage stage;
-    private InputMultiplexer inputMultiplexer = new InputMultiplexer();
-    private float GAME_HEIGHT = 100;
-    private float GAME_WIDTH = 200;
-    private Ingredient ingredient;
+    private final InputMultiplexer inputMultiplexer = new InputMultiplexer();
     boolean initialize = false;
     boolean primary = true;
-    Ingredient extraIngri;
+    Ingredient extraIngredient;
     public Dish trackWithChef;
 
     List<String> orderArray = new ArrayList<>();
@@ -63,15 +56,14 @@ public class Level implements Screen {
     Ingredient fryingOnOvenIngredient;
 
     long burgerCookingTime;
-
-
     Dish dishingUpStack;
 
-
-
+    public Level() {
+    }
 
     @Override
     public void render(float delta) {
+        // Check if we need to switch chefs
         if (!getChef().active) {
             switchChef();
         }
@@ -80,7 +72,6 @@ public class Level implements Screen {
         table.setPosition(100,50);
         table.sizeBy(100,100);
         // table.setDebug(true);
-
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
@@ -94,18 +85,16 @@ public class Level implements Screen {
         myOverlay = new Overlay();
         myOverlay.setUpTable(stage);
         myOverlay.setTableBackgroundColor(230,0,0,60);
-
-
         myOverlay.addText("Active Orders:");
 
         if (initialize){
             Random myRand = new Random();
-
             timeToNextCustomer = myRand.nextInt(10000) + 10000;
             getTimeToIdleGame = 15000;
             timer = TimeUtils.millis();
             initialize = false;
 
+            // Generate customers
             if (primary){
                 for (int i = 0; i < 5; i++) {
                     if (i % 2 == 0) {
@@ -122,54 +111,28 @@ public class Level implements Screen {
             if (getTimeElapsedMilliSeconds() > timeToNextCustomer){
                 initialize = true;
                 if (customerList.size() > 0){
-                    System.out.println("I ran");
+                    // System.out.println("I ran");
                     orderArray.add(customerList.get(customerList.size() - 1).order.myDishName);
                     customerList.remove(customerList.size() - 1);
-
                 }
             }
         }
-
         updateOverlay();
-        //stage.addActor(table);
-
-        //Texture  texture = new Texture(Gdx.files.internal("Tiles/kitchen_fridge.png"));
-        //TextureRegion upRegion = new TextureRegion(texture, 20, 20, 50, 50);
-
-        //TextButton.TextButtonStyle style = new TextButton.TextButtonStyle();
-        //style.up = new TextureRegionDrawable(upRegion);
-        //style.font = new BitmapFont(Gdx.files.internal("bitmapfont/Amble-Regular-26.fnt"));;
-
-       // TextButton button1 = new TextButton("Button 1", style);
-       // Pixmap bgPixmap = new Pixmap(1,1, Pixmap.Format.RGBA8888);
-        //bgPixmap.setColor(88);
-        //bgPixmap.setColor(69,55,3,150);
-       // bgPixmap.fill();
-      //  TextureRegionDrawable textureRegionDrawableBg = new TextureRegionDrawable(new TextureRegion(new Texture(bgPixmap)));
-        //textureRegionDrawableBg.
-
-
-       // table.add(button1);
-       // table.background(textureRegionDrawableBg);
         stage.draw();
-
         batch.begin();
         batch.setProjectionMatrix(camera.combined);
         for (Chef chef : chefList) {
             chef.draw(batch, delta);
         }
-        // getChef().draw(batch, delta);
         ingredient.draw(batch);
         station.draw(batch);
+        // Spawn ingredients at their respective chefs
         List<Ingredient> setPositions = trackWithChef.getCurrentIngredients();
-        Ingredient temp;
-        for (int i = 0; i < setPositions.size() ; i ++){
-            temp = setPositions.get(i);
+        for (Ingredient temp : setPositions) {
             temp.x = temp.myChef.getX();
             temp.y = temp.myChef.getY();
             temp.draw(batch);
         }
-
         if (fryingOnOven) {
             if (isFryingOnOvenInitialize){
                 burgerCookingTime = TimeUtils.millis();
@@ -177,11 +140,10 @@ public class Level implements Screen {
             }
             else {
                 if (TimeUtils.timeSinceMillis(burgerCookingTime) > 8000){
-                    System.out.println("Burger cooked");
+                    // System.out.println("Burger cooked");
                     fryingOnOven = false;
                     cookedBurgerOnOven = true;
                     fryingOnOvenIngredient.setType(Ingredient.Type.COOKED_BURGER);
-
                 }
             }
         }
@@ -194,25 +156,14 @@ public class Level implements Screen {
             dishingUpStack.getCurrentIngredients().get(i).x = 123f;
             dishingUpStack.getCurrentIngredients().get(i).y = 123f;
             dishingUpStack.getCurrentIngredients().get(i).draw(batch);
-
         }
-
-
-
-        //if (extraIngri == null){
-//
-        //}
-        //else {
-        //    extraIngri.draw(batch);
-        //}
-
         batch.end();
         camera.update();
     }
 
     private void updateOverlay(){
-        for (int i = 0 ; i < orderArray.size(); i ++){
-            myOverlay.addText(orderArray.get(i));
+        for (String s : orderArray) {
+            myOverlay.addText(s);
         }
     }
 
@@ -222,20 +173,24 @@ public class Level implements Screen {
 
     @Override
     public void show() {
+        // load the level
         tiledMap = new TmxMapLoader().load("gameMaps/level2.tmx");
+
+        // Create chefs. 2nd argument chefNo refers to the texture file used from /assets/chef.
+        // This game can support as many chefs as you insert into ChefList, pressing Q will cycle through them.
         chefList.add(new Chef(this, "a"));
         chefList.add(new Chef(this, "b"));
         getChef().active = true;
         station = new Station(this);
         dishingUpStack  = new Dish("new dish", getChef());
         trackWithChef = new Dish("new dish", getChef());
-        //inputMultiplexer.addProcessor(station);
+
+        // Listen to inputs from the current chef and the station interactions
         InputProcessor[] cars = {getChef(), station};
         inputMultiplexer.setProcessors(cars);
         inputMultiplexer.getProcessors();
-//        inputMultiplexer.setProcessors(getChef());//Add inputs from chef class
-        //Add inputs from station class
         Gdx.input.setInputProcessor(inputMultiplexer);
+
         tiledMapRenderer = new OrthogonalTiledMapRenderer(tiledMap);
         float aspectRatio = (float) (Gdx.graphics.getHeight() / Gdx.graphics.getWidth());
         float GAME_HEIGHT = 100;
@@ -244,6 +199,8 @@ public class Level implements Screen {
     }
 
     public void switchChef(){
+        // Increment chefs and mark it as active, then set the input processor to the new chef.
+        // You're meant to use addProcessor and removeProcessor... but I couldn't get it to work ¯\_(ツ)_/¯
         currentChef += 1;
         InputProcessor[] cars = {getChef(), station};
         inputMultiplexer.setProcessors(cars);
@@ -251,6 +208,7 @@ public class Level implements Screen {
     }
 
     public Chef getChef(){
+        // Classic mod operation logic to cycle through chefs
         return chefList.get(currentChef%chefList.size());
     }
 
@@ -264,7 +222,7 @@ public class Level implements Screen {
     }
 
     public void readAssetFile(String gameFile){
-        // This function reads read in a gameMap file and populates the gridArray variable which
+        // This function reads in a gameMap file and populates the gridArray variable
         // The gridArray is a 2d array that contains a map of the game world
         FileHandle handle =  Gdx.files.local(gameFile);
         String text = handle.readString();
@@ -276,7 +234,7 @@ public class Level implements Screen {
                 gridArray.get(i).add(String.valueOf(myStrings[i].charAt(x)));
             }
         }
-        System.out.println( gridArray.toString());
+        // System.out.println( gridArray.toString());
     }
 
     @Override
@@ -331,7 +289,6 @@ public class Level implements Screen {
     public void dispose() {
         tiledMap.dispose();
         batch.dispose();
-
     }
 
     public TiledMapTileLayer getMapTileLayer(int i) {

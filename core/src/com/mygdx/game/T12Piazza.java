@@ -21,15 +21,15 @@ public class T12Piazza extends Game {
 	public void render () {
 		super.render();
 		if (myLevelManager.getTimeToNextCustomer() < myLevelManager.getTimeElapsedMilliSeconds()) {
-			// This checks whether enough time has passed in order to spawn a new customer
+//			This checks whether enough time has passed in order to spawn a new customer
 //			System.out.println("spawn Next Customer");
 //			myLevelManager.nextCustomer();
 //			myLevelManager.resetTimer();
 //			myLevelManager.editMe = true;
 		}
 		if (myLevelManager.getTimeSinceLastIO() > myLevelManager.getMinIdleTime()){
-			// This is statement is checking the time since the last user I/O. If the time has been suffiently long it request the game move to the idle mode
-			//System.out.println("Activate idle");
+			// This is statement is checking the time since the last user I/O. If the time has been sufficiently long it requests the game move to the idle mode
+			// System.out.println("Activate idle");
 		}
 	}
 
@@ -45,7 +45,6 @@ public class T12Piazza extends Game {
 
 	@Override
 	public void dispose () {
-
 		super.dispose();
 		myLevelManager.dispose();
 
